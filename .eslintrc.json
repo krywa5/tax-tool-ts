@@ -19,8 +19,16 @@
     },
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "project": [
+      "./tsconfig.json"
+    ]
   },
-  "plugins": ["react", "prettier", "@typescript-eslint"],
-  "rules": {}
+  "plugins": [
+    "react",
+    "prettier",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": "off"
+  }
 }
