@@ -10,6 +10,7 @@ import { sortByKey } from "utils/arrayUtils";
 import { GuidString } from "helpers/types/AppTypes";
 import { dateDiff, daysToMonths, getLastWorkingDay } from "utils/dateUtils";
 import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
+import { toast } from "react-toastify";
 
 export const CountryContext = createContext({});
 
@@ -191,14 +192,13 @@ export const CountryProvider: FunctionComponent<
           setCalculatorValue("currencyTable", currencyTable);
         })
         .catch((error) => {
-          // TODO: Dodać toastify
-          // toast.error(
-          //   "Wystąpił błąd przy pobieraniu danych waluty. Sprawdź czy masz połączenie z internetem lub czy podane daty są prawidłowe.",
-          //   {
-          //     position: "top-center",
-          //     toastId: "currency-data-error-toast",
-          //   },
-          // );
+          toast.error(
+            "Wystąpił błąd przy pobieraniu danych waluty. Sprawdź czy masz połączenie z internetem lub czy podane daty są prawidłowe.",
+            {
+              position: "top-center",
+              toastId: "currency-data-error-toast",
+            },
+          );
           console.error(error);
         })
         .finally(hideDataLoader);
