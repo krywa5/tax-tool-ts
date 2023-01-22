@@ -1,13 +1,8 @@
 import React, { FunctionComponent } from "react";
-import { AppTemplate } from "components/app-template/AppTemplate";
 import { AppContext } from "contexts/AppContext";
 
 const App: FunctionComponent = () => {
-  return (
-    <AppContext>
-      <AppTemplate>hi</AppTemplate>
-    </AppContext>
-  );
+  return <AppContext></AppContext>;
 };
 
 export default App;
