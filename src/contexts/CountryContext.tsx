@@ -7,23 +7,60 @@ import React, {
   useState,
 } from "react";
 import { sortByKey } from "utils/arrayUtils";
-import { GuidString } from "helpers/types/AppTypes";
+import { GuidString } from "interfaces/AppTypes";
 import { dateDiff, daysToMonths, getLastWorkingDay } from "utils/dateUtils";
 import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
 import { toast } from "react-toastify";
+import { Country } from "interfaces/Country";
+import { Calculator } from "interfaces/Calculator";
+import { Income } from "interfaces/Income";
 
-export const CountryContext = createContext({});
+export const CountryContext = createContext<CountryContextType>({
+  addNewIncome: () => {},
+  calculator: {
+    income: 0,
+    paidTax: 0,
+    holidayIncome: 0,
+    startDate: "",
+    endDate: "",
+    paymentDate: "",
+    incomes: [],
+    currencyValue: 0,
+    currencyValueDate: "",
+    currencyTable: "",
+    dailyDiet: 0,
+    workDays: 0,
+    workMonths: 0,
+    daysInPoland: 0,
+    taxValue: 0,
+    allIncomeValue: 0,
+    isDataFetching: false,
+  },
+  countryData: {},
+  removeIncome: () => {},
+  setCalculatorValue: () => {},
+  setCountryValue: () => {},
+});
+
+interface CountryContextType {
+  countryData: Country | null;
+  setCountryValue: <Q>(key: keyof Country, value: Q) => void;
+  calculator: Calculator;
+  setCalculatorValue: <Q>(key: keyof Calculator, value: Q) => void;
+  addNewIncome: (income: Income) => void;
+  removeIncome: (incomeId: GuidString) => void;
+}
 
 interface CountryProviderProps {
-  data: any;
+  data: Country | null;
 }
 
 // TODO: Wywalić propsy z providera
 export const CountryProvider: FunctionComponent<
   PropsWithChildren<CountryProviderProps>
 > = ({ data, children }) => {
-  const [countryData, setCountryData] = useState(data);
-  const [calculator, setCalculator] = useState({
+  const [countryData, setCountryData] = useState<Country | null>(data);
+  const [calculator, setCalculator] = useState<Calculator>({
     income: 0, // przychód brutto
     paidTax: 0, // zapłacony podatek zagranicą
     holidayIncome: 0, // przychód wakacyjny (tylko w Niemczech)
@@ -90,16 +127,18 @@ export const CountryProvider: FunctionComponent<
     isDataFetching: false, // flaga gdy pobieranie danych o walucie
   });
 
-  // TODO: dopisać prawdziwe typy
-  const setCalculatorValue = useCallback((key: string, value: any) => {
+  const setCalculatorValue = useCallback<
+    <Q>(key: keyof Calculator, value: Q) => void
+  >((key, value) => {
     setCalculator((prevValue) => ({
       ...prevValue,
       [key]: value,
     }));
   }, []);
 
-  // TODO: dopisać prawdziwe typy
-  const setCountryValue = useCallback((key: string, value: any) => {
+  const setCountryValue = useCallback<
+    <Q>(key: keyof Country, value: Q) => void
+  >((key, value) => {
     setCountryData((prevValue: any) => ({
       ...prevValue,
       [key]: value,
@@ -131,8 +170,6 @@ export const CountryProvider: FunctionComponent<
 
   const removeIncome = (incomeId: GuidString): void => {
     const state = [...calculator.incomes];
-    // TODO: WYwalić expect-error
-    // @ts-expect-error
     const newIncomes = state.filter((income) => income.id !== incomeId);
 
     return setCalculatorValue("incomes", newIncomes);

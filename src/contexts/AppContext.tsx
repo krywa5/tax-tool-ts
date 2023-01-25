@@ -7,15 +7,43 @@ import React, {
 } from "react";
 import { child, get, ref } from "firebase/database";
 import { firebaseDB } from "infrastructure/services/firebase/firebase.service";
+import { Country } from "interfaces/Country";
+import { StateSetter } from "interfaces/AppTypes";
 
-const AppContext = createContext({});
+const appContextInitState: AppContextType = {
+  selectedCountry: null,
+  setSelectedCountry: () => null,
+  countriesData: [],
+  setCountriesData: () => [],
+  isUserLogged: false,
+  setIsUserLogged: () => false,
+  selectedYear: new Date().getFullYear() - 1,
+  setSelectedYear: () => 0,
+  availableYears: [new Date().getFullYear() - 1],
+  setAvailableYears: () => [0],
+};
+
+interface AppContextType {
+  selectedCountry: string | null;
+  setSelectedCountry: StateSetter<string | null>;
+  countriesData: Country[];
+  setCountriesData: StateSetter<Country[]>;
+  isUserLogged: boolean;
+  setIsUserLogged: StateSetter<boolean>;
+  selectedYear: number;
+  setSelectedYear: StateSetter<number>;
+  availableYears: number[];
+  setAvailableYears: StateSetter<number[]>;
+}
+
+export const AppContext = createContext<AppContextType>(appContextInitState);
 
 // TODO: Rozbić to na mniejsze konteksty
 export const AppProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState();
-  const [countriesData, setCountriesData] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [countriesData, setCountriesData] = useState<Country[]>([]);
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [selectedYear, setSelectedYear] = useState(
     new Date().getFullYear() - 1,

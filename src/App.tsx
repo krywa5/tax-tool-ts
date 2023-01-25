@@ -1,11 +1,18 @@
 import React, { FunctionComponent } from "react";
 import { RouterProvider } from "routing/RouterProvider";
 import { ThemeProvider } from "theme/ThemeProvider";
+import { AppProvider } from "contexts/AppContext";
+import { CountryProvider } from "contexts/CountryContext";
 
 const App: FunctionComponent = () => {
   return (
     <ThemeProvider>
-      <RouterProvider />
+      <AppProvider>
+        {/*  TODO: ogarnąć data, Chyba najlepiej wewnątrz country providera to zrobić */}
+        <CountryProvider data={{}}>
+          <RouterProvider />
+        </CountryProvider>
+      </AppProvider>
     </ThemeProvider>
   );
 };
