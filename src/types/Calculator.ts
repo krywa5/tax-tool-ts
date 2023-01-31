@@ -1,4 +1,4 @@
-import { Income } from "interfaces/Income";
+import { Income } from "types/Income";
 
 export interface Calculator {
   income: number; // przychód brutto

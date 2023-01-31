@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+
 import { styled, Typography } from "@mui/material";
 
 export const Copyright: FunctionComponent = () => {

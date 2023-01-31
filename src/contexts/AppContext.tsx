@@ -5,10 +5,11 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
 import { child, get, ref } from "firebase/database";
 import { firebaseDB } from "infrastructure/services/firebase/firebase.service";
-import { Country } from "interfaces/Country";
-import { StateSetter } from "interfaces/AppTypes";
+import { StateSetter } from "types/AppTypes";
+import { Country } from "types/Country";
 
 const appContextInitState: AppContextType = {
   selectedCountry: null,

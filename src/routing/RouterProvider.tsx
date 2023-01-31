@@ -4,10 +4,12 @@ import {
   Navigate,
   RouterProvider as RRDRouterProvider,
 } from "react-router-dom";
-import { PATHS } from "routing/paths";
-import { TaxTool } from "pages/tax-tool/TaxTool";
-import { Login } from "pages/login/Login";
 
+import { Login } from "pages/login/Login";
+import { TaxTool } from "pages/tax-tool/TaxTool";
+import { PATHS } from "routing/paths";
+
+// TODO: Spróbować zrobić coś z basename
 const router = createBrowserRouter([
   {
     path: "/",

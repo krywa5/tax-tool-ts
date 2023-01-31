@@ -29,6 +29,99 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    // Limit Cyclomatic Complexity
+    "complexity": [
+      "error",
+      20
+    ],
+    // Enforce a maximum depth that blocks can be nested
+    "max-depth": [
+      "error",
+      4
+    ],
+    // Enforce a maximum file length
+    "max-lines": [
+      "warn",
+      {
+        "max": 300,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    // Enforce a maximum function length
+    "max-lines-per-function": [
+      "warn",
+      {
+        "max": 100,
+        "skipBlankLines": true,
+        "skipComments": true,
+        "IIFEs": true
+      }
+    ],
+    // Enforce a maximum depth that callbacks can be nested
+    "max-nested-callbacks": [
+      "error",
+      3
+    ],
+    // Enforce a maximum number of parameters in function definitions
+    "max-params": [
+      "error",
+      3
+    ],
+    // Enforce a maximum number of statements allowed per line
+    "max-statements": [
+      "error",
+      20
+    ],
+    // 15
+    "no-param-reassign": 0,
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "unknown",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "{react**,react/**}",
+            "group": "builtin",
+            "position": "before"
+          }
+        ],
+        // sort the order within each group in alphabetical manner based on import path
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        // defines import types that are not handled by configured pathGroups
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        // case-sensitivity of the imports local name: B > a
+        "ignoreCase": true,
+        // sort ascending, base on variable name: a > b
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "": "never"
+      }
+    ]
   }
 }

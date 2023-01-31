@@ -1,4 +1,4 @@
-import { GuidString } from "interfaces/AppTypes";
+import { GuidString } from "types/AppTypes";
 
 export interface Income {
   id: GuidString;

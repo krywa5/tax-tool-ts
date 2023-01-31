@@ -3,5 +3,5 @@ export interface Stylable {
 }
 
 export interface Printable {
-  print?: boolean;
+  "data-print"?: boolean;
 }

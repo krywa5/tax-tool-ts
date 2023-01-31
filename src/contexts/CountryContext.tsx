@@ -6,14 +6,15 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { sortByKey } from "utils/arrayUtils";
-import { GuidString } from "interfaces/AppTypes";
-import { dateDiff, daysToMonths, getLastWorkingDay } from "utils/dateUtils";
-import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
 import { toast } from "react-toastify";
-import { Country } from "interfaces/Country";
-import { Calculator } from "interfaces/Calculator";
-import { Income } from "interfaces/Income";
+
+import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
+import { GuidString } from "types/AppTypes";
+import { Calculator } from "types/Calculator";
+import { Country } from "types/Country";
+import { Income } from "types/Income";
+import { sortByKey } from "utils/arrayUtils";
+import { dateDiff, daysToMonths, getLastWorkingDay } from "utils/dateUtils";
 
 export const CountryContext = createContext<CountryContextType>({
   addNewIncome: () => {},
@@ -151,11 +152,13 @@ export const CountryProvider: FunctionComponent<
     setCalculatorValue("currencyTable", "");
   }, [setCalculatorValue]);
 
-  const showDataLoader = (): void => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const showDataLoader = () => {
     setCalculatorValue("isDataFetching", true);
   };
 
-  const hideDataLoader = (): void => {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const hideDataLoader = () => {
     setCalculatorValue("isDataFetching", false);
   };
 

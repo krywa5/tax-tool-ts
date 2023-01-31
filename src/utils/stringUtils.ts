@@ -2,3 +2,5 @@
 export const strToNum = (string: string): number => {
   return Number(Number(string.replace(",", ".")).toFixed(2));
 };
+
+export const createUUID = (): string => crypto.randomUUID();

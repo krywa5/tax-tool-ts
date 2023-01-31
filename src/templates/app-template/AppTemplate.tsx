@@ -1,4 +1,5 @@
 import React, { FunctionComponent, PropsWithChildren } from "react";
+
 import { styled } from "@mui/material";
 import { Logo } from "components/logo/Logo";
 
@@ -7,7 +8,7 @@ export const AppTemplate: FunctionComponent<PropsWithChildren> = ({
 }) => {
   return (
     <StyledAppTemplate>
-      <StyledLogo print={false} variant="secondary" />
+      <StyledLogo data-print={false} variant="secondary" />
       <main>{children}</main>
     </StyledAppTemplate>
   );

@@ -4,8 +4,8 @@ import {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_PROJECT_ID,
 } from "enviroment/variables";
-import firebase from "firebase/app";
-
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
 export const firebaseConfig = {
@@ -19,6 +19,8 @@ export const firebaseConfig = {
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+export const firebaseAuth = getAuth();
+export const firebaseLogout = firebaseAuth.signOut;
 
 export const firebaseDB = getDatabase(app);

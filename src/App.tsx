@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { RouterProvider } from "routing/RouterProvider";
-import { ThemeProvider } from "theme/ThemeProvider";
+
 import { AppProvider } from "contexts/AppContext";
 import { CountryProvider } from "contexts/CountryContext";
+import { RouterProvider } from "routing/RouterProvider";
+import { ThemeProvider } from "theme/ThemeProvider";
 
 const App: FunctionComponent = () => {
   return (

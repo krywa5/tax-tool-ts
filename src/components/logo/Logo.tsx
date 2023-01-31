@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
+
 import { styled } from "@mui/material";
 import logoPrimary from "assets/images/logo-primary.png";
 import logoSecondary from "assets/images/logo-secondary.png";
-import { Printable, Stylable } from "helpers/types/ComponentTypes";
+import { Printable, Stylable } from "types/ComponentTypes";
 
 export interface LogoProps extends Stylable, Printable {
   variant?: "primary" | "secondary";
@@ -10,7 +11,7 @@ export interface LogoProps extends Stylable, Printable {
 
 export const Logo: FunctionComponent<LogoProps> = ({
   variant = "primary",
-  print,
+  "data-print": dataPrint,
   className,
 }) => {
   const src = {
@@ -24,7 +25,7 @@ export const Logo: FunctionComponent<LogoProps> = ({
       src={src}
       alt="logo"
       className={className}
-      data-print={print}
+      data-print={dataPrint}
     />
   );
 };
