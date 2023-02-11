@@ -46,17 +46,11 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
     useContext(AppContext);
   const {
     income,
-    setIncome,
     paidTax,
-    setPaidTax,
     holidayIncome,
-    setHolidayIncome,
-    setStartDate,
     startDate,
     endDate,
-    setEndDate,
     paymentDate,
-    setPaymentDate,
     currencyValue,
     setCurrencyValue,
     currencyValueDate,
@@ -70,12 +64,10 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
     workMonths,
     setWorkMonths,
     daysInPoland,
-    setDaysInPoland,
     taxPLN,
     setTaxPLN,
     incomePLN,
     setIncomePLN,
-    isCurrencyDataFetching,
     setIsCurrencyDataFetching,
     resetManualInputs,
     resetCurrencyData,
@@ -344,7 +336,6 @@ export const Country: FunctionComponent = () => {
     </CountryProvider>
   );
 };
-// Comment of sadness
 
 const Wrapper = styled(MuiContainer)(({ theme }) => ({
   width: "100%",

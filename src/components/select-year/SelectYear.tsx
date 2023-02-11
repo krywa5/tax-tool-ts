@@ -1,11 +1,13 @@
 import React, { FunctionComponent, useContext } from "react";
+import { useParams } from "react-router-dom";
 
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Loader } from "components/loader/Loader";
 import { AppContext } from "contexts/AppContext";
+import { Country, CountryId } from "types/Country";
 
 export const SelectYear: FunctionComponent = () => {
-  const { selectedYear, setSelectedYear, availableYears } =
+  const { countryId } = useParams();
+  const { selectedYear, setSelectedYear, availableYears, countriesData } =
     useContext(AppContext);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -13,17 +15,40 @@ export const SelectYear: FunctionComponent = () => {
     setSelectedYear(e.target.value);
   };
 
-  if (availableYears.length <= 1) return <Loader />;
+  const allAvailableYearsMenuItems = createMenuItems(availableYears);
 
-  const MenuItemsJSX = availableYears.map((year) => (
+  const availableYearsForSelectedCountryMenuItems = countryId
+    ? createMenuItems(findAvailableYears(countriesData, countryId))
+    : [];
+
+  return (
+    <Select value={selectedYear} onChange={changeHandler} variant="outlined">
+      {countryId
+        ? availableYearsForSelectedCountryMenuItems
+        : allAvailableYearsMenuItems}
+    </Select>
+  );
+};
+
+const findAvailableYears = (
+  countriesData: Record<string, Country[]>,
+  countryId?: CountryId,
+) => {
+  if (!countryId) {
+    return [];
+  }
+
+  return Object.entries(countriesData)
+    .filter(([_, countries]) => {
+      return !!countries.find((country) => country.id === countryId);
+    })
+    .map(([year]) => year)
+    .sort();
+};
+
+const createMenuItems = (years: string[]) =>
+  years.map((year) => (
     <MenuItem value={year} key={year}>
       {year}
     </MenuItem>
   ));
-
-  return (
-    <Select value={selectedYear} onChange={changeHandler} variant="outlined">
-      {MenuItemsJSX}
-    </Select>
-  );
-};
