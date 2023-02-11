@@ -19,10 +19,10 @@ const StyledAppTemplate = styled("div")(({ theme }) => ({
   minHeight: "100vh",
   maxWidth: "unset",
   backgroundImage: `radial-gradient(${theme.palette.primary.light}, ${theme.palette.primary.dark})`,
-  padding: "50px",
+  padding: theme.spacing(5),
 
   "@media print": {
-    padding: "0",
+    padding: theme.spacing(0),
   },
 }));
 

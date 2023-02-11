@@ -17,7 +17,7 @@ export const FieldGroupDivider: FunctionComponent<FieldGroupDividerProps> = ({
 };
 
 const Wrapper = styled("div")(({ theme }) => ({
-  padding: "10px",
+  padding: theme.spacing(2),
   textAlign: "center",
   borderTop: `1px solid ${theme.palette.common.black}`,
   borderBottom: `1px solid ${theme.palette.common.black}`,

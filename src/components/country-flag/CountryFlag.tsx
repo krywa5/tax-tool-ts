@@ -85,7 +85,7 @@ const FlagListItem = styled("li")(({ theme }) => ({
   },
 
   "&:hover, &.selected": {
-    transform: "translateY(-2px)",
+    transform: `translateY(-${theme.spacing(1)})`,
 
     "&::before": {
       opacity: "1",
@@ -93,6 +93,7 @@ const FlagListItem = styled("li")(({ theme }) => ({
   },
   "&[data-selected='true']": {
     outline: `5px solid ${theme.palette.secondary.main}`,
+    transform: `translateY(-${theme.spacing(1)})`,
   },
 }));
 

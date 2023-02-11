@@ -77,8 +77,8 @@ const Wrapper = styled(Container, {
   transform: isTipsActive ? "translate(0, -50%)" : "translate(-100%, -50%)",
   borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
   backgroundColor: theme.palette.secondary.main,
-  width: "350px",
-  padding: "20px 35px",
+  width: "400px",
+  padding: theme.spacing(4),
   transition: `transform ${theme.transitions.duration.medium}ms ${theme.transitions.easing.easeInOut}`,
   boxShadow: theme.shadows[10],
 }));
@@ -94,10 +94,10 @@ const InfoIconContainer = styled(Container, {
   display: "flex",
   width: "fit-content",
   textAlign: "center",
-  padding: "15px",
+  padding: theme.spacing(3),
   transformOrigin: "top left",
   borderRadius: `0 ${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0`,
-  fontSize: "20px",
+  fontSize: "1.25rem",
   opacity: isTipsActive ? "0" : "1",
   visibility: isTipsActive ? "hidden" : "visible",
   cursor: "pointer",
@@ -105,30 +105,30 @@ const InfoIconContainer = styled(Container, {
   transition: `${theme.transitions.duration.medium}ms 0.2s ${theme.transitions.easing.easeInOut}`,
 }));
 
-const HideTipIcon = styled(CancelOutlinedIcon)({
+const HideTipIcon = styled(CancelOutlinedIcon)(({ theme }) => ({
   width: "25px",
   height: "auto",
   position: "absolute",
-  top: "15px",
-  right: "15px",
+  top: theme.spacing(2),
+  right: theme.spacing(2),
   cursor: "pointer",
-});
+}));
 
-const Title = styled(Typography)({
+const Title = styled(Typography)(({ theme }) => ({
   fontWeight: "700",
-  marginBottom: "15px",
-});
+  marginBottom: theme.spacing(2),
+}));
 
 const StyledList = styled(List)({
   listStyle: "disc",
 });
 
-const StyledListItem = styled(ListItem)({
+const StyledListItem = styled(ListItem)(({ theme }) => ({
   listStyleType: "default",
   padding: "0",
   display: "list-item",
-  marginBottom: "10px",
+  marginBottom: theme.spacing(1),
   "&:last-child": {
     marginBottom: "0",
   },
-});
+}));

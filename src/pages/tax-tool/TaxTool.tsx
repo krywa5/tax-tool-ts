@@ -46,6 +46,6 @@ const MainWrapper = styled(Paper, {
 
   "@media print": {
     boxShadow: "unset",
-    margin: "0",
+    margin: theme.spacing(0),
   },
 }));

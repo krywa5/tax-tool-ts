@@ -16,14 +16,14 @@ export const CountrySelect: FunctionComponent = () => {
   );
 };
 
-const StyledGrid = styled("nav")({
+const StyledGrid = styled("nav")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   flexWrap: "nowrap",
-  padding: "20px",
+  padding: theme.spacing(3),
   width: "100%",
   justifyContent: "space-around",
-});
+}));
 
 const Label = styled(Typography)({
   whiteSpace: "nowrap",

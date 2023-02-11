@@ -31,11 +31,11 @@ export const InputLabel: FunctionComponent<InputLabelProps> = ({
   );
 };
 
-const LabelWrapper = styled("label")({
+const LabelWrapper = styled("label")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  paddingRight: "15px",
-});
+  paddingRight: theme.spacing(2),
+}));
 
 const SubLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.main,

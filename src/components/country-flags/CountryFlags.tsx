@@ -25,12 +25,12 @@ export const CountryFlags: FunctionComponent = () => {
   );
 };
 
-const StyledGrid = styled(Grid)({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   display: "grid",
-  gridTemplateColumns: "repeat( auto-fit, 80px )",
+  gridTemplateColumns: "repeat(auto-fit, 80px)",
   maxWidth: "59%",
-  padding: "0 30px",
-  gap: "25px",
+  padding: theme.spacing(0, 4),
+  gap: theme.spacing(3),
   listStyle: "none",
   justifyContent: "center",
-});
+}));

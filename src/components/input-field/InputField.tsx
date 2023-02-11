@@ -8,11 +8,11 @@ export const InputField: FunctionComponent<PropsWithChildren> = ({
   return <Wrapper>{children}</Wrapper>;
 };
 
-const Wrapper = styled("div")({
+const Wrapper = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  padding: "25px 0 26px",
+  padding: theme.spacing(3, 0),
   position: "relative",
 
   "&:not(:last-child)::after": {
@@ -26,4 +26,4 @@ const Wrapper = styled("div")({
     background:
       "linear-gradient(to right, rgba(0,0,0,0) 0%, rgb(0,0,0) 25%, rgb(0,0,0) 75%, rgb(0,0,0,0) 100%)",
   },
-});
+}));

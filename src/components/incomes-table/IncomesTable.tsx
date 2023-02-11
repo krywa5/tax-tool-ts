@@ -176,7 +176,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
   );
 };
 
-const StyledTable = styled(Table)({
+const StyledTable = styled(Table)(({ theme }) => ({
   "& thead th": {
     fontWeight: 600,
     fontSize: "1rem",
@@ -185,7 +185,7 @@ const StyledTable = styled(Table)({
     "@media print": {
       fontSize: ".75rem",
       lineHeight: "1.25",
-      padding: "10px 5px",
+      padding: "8px 4px",
     },
   },
   "& td": {
@@ -193,10 +193,10 @@ const StyledTable = styled(Table)({
 
     "@media print": {
       fontSize: ".75rem",
-      padding: "10px 5px",
+      padding: "8px 4px",
     },
   },
-});
+}));
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.dark,

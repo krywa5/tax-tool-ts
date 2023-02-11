@@ -346,33 +346,29 @@ export const Country: FunctionComponent = () => {
 };
 // Comment of sadness
 
-const Wrapper = styled(MuiContainer)({
+const Wrapper = styled(MuiContainer)(({ theme }) => ({
   width: "100%",
 
   "&&": {
-    padding: "15px 0",
+    padding: theme.spacing(2, 0),
   },
 
   "& .MuiFormControl-root": {
     minWidth: "260px",
   },
-});
+}));
 
 const StyledManualFields = styled(ManualFields)({
   position: "relative",
-  paddingLeft: "50px",
-  paddingRight: "50px",
 });
 
 const StyledAutoFields = styled(AutoFields)({
   position: "relative",
-  paddingLeft: "50px",
-  paddingRight: "50px",
 });
 
-const SubmitButton = styled(Button)({
+const SubmitButton = styled(Button)(({ theme }) => ({
   borderRadius: "0",
-  padding: "12px 22px",
+  padding: theme.spacing(1, 3),
   letterSpacing: "1px",
   fontSize: "1.5rem",
   boxShadow: "unset",
@@ -383,22 +379,22 @@ const SubmitButton = styled(Button)({
     cursor: "not-allowed",
     pointerEvents: "auto",
   },
-});
+}));
 
-const IncomeListTitle = styled(Typography)({
+const IncomeListTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  marginBottom: "20px",
+  marginBottom: theme.spacing(3),
   "@media print": {
-    marginBottom: "30px",
+    marginBottom: theme.spacing(4),
   },
-});
+}));
 
-const IncomeListWrapper = styled(MuiContainer)({
-  padding: "50px 20px",
+const IncomeListWrapper = styled(MuiContainer)(({ theme }) => ({
+  padding: theme.spacing(5, 3),
   "@media print": {
-    padding: "0",
+    padding: theme.spacing(0),
   },
-});
+}));
 
 const CountryName = styled(Typography)(({ theme }) => ({
   fontSize: theme.typography.h5.fontSize,
