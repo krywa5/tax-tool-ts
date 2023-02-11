@@ -1,53 +1,44 @@
-import React, { FunctionComponent, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { FunctionComponent } from "react";
 
 import { Button, styled, Typography } from "@mui/material";
-import { AppContext } from "contexts/AppContext";
-import { firebaseLogout } from "infrastructure/services/firebase/firebase.service";
-import { PATHS } from "routing/paths";
-import { closeAuthSession } from "utils/authUtils";
+import { Loader } from "components/loader/Loader";
 
-export const LogoutAlert: FunctionComponent = () => {
-  const navigate = useNavigate();
-  const { setIsUserLogged } = useContext(AppContext);
+interface LogoutAlertProps {
+  logout: () => void;
+  dismiss: () => void;
+  isLogoutPending: boolean;
+}
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const clickHandler = () => {
-    firebaseLogout()
-      .then(() => {
-        closeAuthSession();
-        navigate(PATHS.loginPage);
-        setIsUserLogged(false);
-      })
-      .catch((err) => {
-        toast.error("Wystąpił błąd podczas wylogowywania");
-        console.error(err);
-      });
-  };
-
+export const LogoutAlert: FunctionComponent<LogoutAlertProps> = ({
+  logout,
+  dismiss,
+  isLogoutPending,
+}) => {
   return (
     <>
       <Heading variant="body1" align="center">
         Czy na pewno chcesz się wylogować?
       </Heading>
-      <SubmitButton
-        variant="contained"
-        color="secondary"
-        onClick={clickHandler}
-      >
-        Wyloguj
-      </SubmitButton>
+      <ButtonsContainer>
+        <Button variant="contained" color="secondary" onClick={logout}>
+          {isLogoutPending ? <Loader color="white" isSmall /> : "Tak"}
+        </Button>
+        <Button variant="outlined" onClick={dismiss}>
+          Nie
+        </Button>
+      </ButtonsContainer>
     </>
   );
 };
 
 const Heading = styled(Typography)(({ theme }) => ({
-  marginBottom: "2em",
+  marginBottom: "1em",
   color: theme.palette.primary.main,
 }));
 
-const SubmitButton = styled(Button)({
-  margin: "0 auto",
-  display: "block",
-});
+const ButtonsContainer = styled("div")(({ theme }) => ({
+  display: "flex",
+  gap: theme.spacing(1),
+  justifyContent: "space-around",
+  marginBottom: theme.spacing(1),
+}));

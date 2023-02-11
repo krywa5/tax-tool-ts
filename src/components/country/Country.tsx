@@ -42,9 +42,6 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
   selectedCountry,
 }) => {
   const firstInput = useRef<HTMLInputElement | null>(null);
-
-  console.log("Country Render");
-
   const { selectedYear, setSelectedYear, availableYears } =
     useContext(AppContext);
   const {
@@ -102,16 +99,6 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
     currencyValueDate &&
     endDate &&
     startDate;
-
-  console.log({
-    incomePLN,
-    income,
-    paidTax,
-    currencyTable,
-    currencyValueDate,
-    endDate,
-    startDate,
-  });
 
   const addToIncomeList = (): void => {
     if (!isReadyToAddToIncomeList) {
@@ -234,7 +221,6 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
     setCurrencyValueDate,
     setIsCurrencyDataFetching,
   ]);
-  console.log({ paymentDate });
 
   // set dailyDiet
   useEffect(() => {
@@ -301,7 +287,6 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
   ]);
 
   useEffect(() => {
-    console.log("odpalam useEffect");
     resetIncomes();
   }, [resetIncomes, selectedCountry]);
 

@@ -1,13 +1,13 @@
-// TODO: Przenieść to do serwisu auth
+const SESSION_STORAGE_ITEM_NAME = "tt_isAuth" as const;
 
 export const setAuthSession = (): void => {
-  sessionStorage.setItem("tt_isAuth", "true");
+  sessionStorage.setItem(SESSION_STORAGE_ITEM_NAME, "true");
 };
 
 export const closeAuthSession = (): void => {
-  sessionStorage.removeItem("tt_isAuth");
+  sessionStorage.removeItem(SESSION_STORAGE_ITEM_NAME);
 };
 
 export const isAuthSession = (): boolean => {
-  return sessionStorage.getItem("tt_isAuth") === "true";
+  return sessionStorage.getItem(SESSION_STORAGE_ITEM_NAME) === "true";
 };

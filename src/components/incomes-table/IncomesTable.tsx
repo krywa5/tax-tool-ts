@@ -109,11 +109,6 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
             overallValues.taxPLN += taxPLN;
             overallValues.incomePLN += incomePLN;
 
-            console.log({
-              paymentDate,
-              endDate,
-            });
-
             return (
               <TableRow key={id}>
                 <TableCell>{index + 1}.</TableCell>

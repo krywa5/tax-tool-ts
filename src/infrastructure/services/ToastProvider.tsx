@@ -1,15 +1,15 @@
-import "react-toastify/dist/ReactToastify.css";
 import React, { FunctionComponent, PropsWithChildren } from "react";
 import { Slide, ToastContainer } from "react-toastify";
 
 import { styled } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
 
 export const ToastProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   return (
     <>
-      <StyledToastContainer autoClose={2000} newestOnTop transition={Slide} />
+      <StyledToastContainer autoClose={3000} newestOnTop transition={Slide} />
       {children}
     </>
   );

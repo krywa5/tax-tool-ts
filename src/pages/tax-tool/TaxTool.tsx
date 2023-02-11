@@ -1,38 +1,16 @@
-import React, { FunctionComponent, useContext, useEffect } from "react";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import React, { FunctionComponent } from "react";
+import { Outlet, useParams } from "react-router-dom";
 
 import { Container, Paper, styled } from "@mui/material";
 import { CountrySelect } from "components/country-select/CountrySelect";
-import { Loader } from "components/loader/Loader";
 import { Logo } from "components/logo/Logo";
 import { LogoutButton } from "components/logout-button/LogoutButton";
-import { AppContext } from "contexts/AppContext";
-import { firebaseAuth } from "infrastructure/services/firebase/firebase.service";
-import { PATHS } from "routing/paths";
 import { AppTemplate } from "templates/app-template/AppTemplate";
 import { CountryId } from "types/Country";
-import { isAuthSession } from "utils/authUtils";
 
 export const TaxTool: FunctionComponent = () => {
-  const navigate = useNavigate();
   const { countryId } = useParams();
-  const { setIsUserLogged, isUserLogged } = useContext(AppContext);
 
-  useEffect(() => {
-    if (firebaseAuth.currentUser ?? isAuthSession()) {
-      // user is logged
-      setIsUserLogged(true);
-    } else {
-      // user is not logged
-      navigate(PATHS.loginPage);
-      setIsUserLogged(false);
-    }
-  }, [navigate, setIsUserLogged]);
-
-  if (!isUserLogged) {
-    return <Loader />;
-    // Comment of sadness
-  }
   return (
     <AppTemplate>
       <TaxToolContainer disableGutters maxWidth="lg">

@@ -1,16 +1,36 @@
-import React, { FunctionComponent } from "react";
-import { toast } from "react-toastify";
+import React, { FunctionComponent, useRef } from "react";
+import { Id, toast } from "react-toastify";
 
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import { Button, styled } from "@mui/material";
 import { LogoutAlert } from "components/logout-alert/LogoutAlert";
+import { useAuth } from "hooks/useAuth";
 
 export const LogoutButton: FunctionComponent = () => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleOnClick = () => {
-    // TODO: Stylowanie toasta
-    toast.info(<LogoutAlert />);
+  const { signOut, isSignOutPending } = useAuth();
+  const toastId = useRef<Id | null>(null);
+
+  const logoutHandler = async () => {
+    await signOut();
   };
+
+  const dismissHandler = () => {
+    if (toastId?.current) {
+      toast.dismiss(toastId.current);
+    }
+  };
+
+  const showConfirmation = () =>
+    (toastId.current = toast.info(
+      <LogoutAlert
+        logout={logoutHandler}
+        dismiss={dismissHandler}
+        isLogoutPending={isSignOutPending}
+      />,
+      {
+        autoClose: 10000,
+      },
+    ));
 
   return (
     <StyledButton
@@ -18,7 +38,7 @@ export const LogoutButton: FunctionComponent = () => {
       color="secondary"
       endIcon={<ExitToAppOutlinedIcon />}
       size="large"
-      onClick={handleOnClick}
+      onClick={showConfirmation}
       data-print={false}
     >
       Wyloguj

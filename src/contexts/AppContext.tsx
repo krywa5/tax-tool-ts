@@ -5,14 +5,15 @@ import React, {
   useState,
 } from "react";
 
+import { User } from "@firebase/auth";
 import { countriesData } from "assets/data/countries/countriesData";
 import { StateSetter } from "types/AppTypes";
 import { AvailableYear } from "types/AvailableYear";
 import { Country } from "types/Country";
 
 const appContextInitState: AppContextType = {
-  isUserLogged: false,
-  setIsUserLogged: () => false,
+  user: null,
+  setUser: () => {},
   selectedYear: (new Date().getFullYear() - 1).toString(),
   setSelectedYear: () => 0,
   availableYears: [],
@@ -20,8 +21,8 @@ const appContextInitState: AppContextType = {
 };
 
 interface AppContextType {
-  isUserLogged: boolean;
-  setIsUserLogged: StateSetter<boolean>;
+  user: User | null;
+  setUser: StateSetter<User | null>;
   selectedYear: AvailableYear;
   setSelectedYear: StateSetter<AvailableYear>;
   availableYears: AvailableYear[];
@@ -39,14 +40,14 @@ const latestAvailableYear = availableYearSorted[availableYearSorted.length - 1];
 export const AppProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [isUserLogged, setIsUserLogged] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const [selectedYear, setSelectedYear] = useState(latestAvailableYear);
 
   return (
     <AppContext.Provider
       value={{
-        isUserLogged,
-        setIsUserLogged,
+        user,
+        setUser,
         selectedYear,
         setSelectedYear,
         availableYears: availableYearSorted,

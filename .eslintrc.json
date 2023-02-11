@@ -19,15 +19,27 @@
     },
     "ecmaVersion": "latest",
     "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "project": [
+      "./tsconfig.json"
+    ]
   },
-  "plugins": ["react", "prettier", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "prettier",
+    "@typescript-eslint"
+  ],
   "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
     // Limit Cyclomatic Complexity
-    "complexity": ["error", 20],
+    "complexity": [
+      "error",
+      20
+    ],
     // Enforce a maximum depth that blocks can be nested
-    "max-depth": ["error", 4],
+    "max-depth": [
+      "error",
+      4
+    ],
     // Enforce a maximum file length
     "max-lines": [
       "warn",
@@ -48,11 +60,20 @@
       }
     ],
     // Enforce a maximum depth that callbacks can be nested
-    "max-nested-callbacks": ["error", 3],
+    "max-nested-callbacks": [
+      "error",
+      3
+    ],
     // Enforce a maximum number of parameters in function definitions
-    "max-params": ["error", 3],
+    "max-params": [
+      "error",
+      3
+    ],
     // Enforce a maximum number of statements allowed per line
-    "max-statements": ["error", 20],
+    "max-statements": [
+      "error",
+      20
+    ],
     // 15
     "no-param-reassign": 0,
     "import/order": [
@@ -80,7 +101,9 @@
           "caseInsensitive": true
         },
         // defines import types that are not handled by configured pathGroups
-        "pathGroupsExcludedImportTypes": ["react"],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
         "newlines-between": "always"
       }
     ],
@@ -100,7 +123,10 @@
         "": "never"
       }
     ],
-    "no-unused-vars": ["off"],
-    "@typescript-eslint/no-unused-vars": ["warn"]
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "error"
   }
 }

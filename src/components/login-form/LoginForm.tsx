@@ -2,11 +2,8 @@ import React, {
   ChangeEvent,
   FormEvent,
   FunctionComponent,
-  useContext,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
@@ -21,11 +18,7 @@ import {
 } from "@mui/material";
 import { Copyright } from "components/copyright/Copyright";
 import { Loader } from "components/loader/Loader";
-import { AppContext } from "contexts/AppContext";
-import { firebaseLogin } from "infrastructure/services/firebase/api/firebaseLogin";
-import { PATHS } from "routing/paths";
-import { setAuthSession } from "utils/authUtils";
-import { translateErrorCode } from "utils/translateUtils";
+import { useAuth } from "hooks/useAuth";
 
 interface LoginFormFields {
   email: string;
@@ -37,47 +30,16 @@ const initLoginForm: LoginFormFields = {
   password: "",
 };
 
-// TODO: Zaimplementować formika
 export const LoginForm: FunctionComponent = () => {
   const [inputData, setInputData] = useState<LoginFormFields>(initLoginForm);
-  const [isLoading, setIsLoading] = useState(false);
-  const { setIsUserLogged } = useContext(AppContext);
+  const { signIn, isSignInPending: isLoading } = useAuth();
 
-  const navigate = useNavigate();
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     const { email, password } = inputData;
-    setIsLoading(true);
-
-    firebaseLogin(email, password)
-      .then((user) => {
-        const message = "Zalogowano pomyślnie.";
-
-        toast.success(message, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-
-        setIsLoading(false);
-        navigate(PATHS.home);
-        setIsUserLogged(true);
-        setAuthSession();
-      })
-      .catch((error) => {
-        const message = translateErrorCode(error.code);
-
-        toast.error(message, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000,
-        });
-
-        setIsLoading(false);
-      });
+    await signIn(email, password);
   };
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setInputData((prevVal) => ({
       ...prevVal,
@@ -128,6 +90,7 @@ export const LoginForm: FunctionComponent = () => {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={isLoading}
           >
             {isLoading ? <Loader color="white" isSmall /> : "Zaloguj"}
           </SubmitButton>

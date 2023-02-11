@@ -4,9 +4,13 @@ import {
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_PROJECT_ID,
 } from "enviroment/variables";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { FirebaseError, initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  closeAuthSession,
+  isAuthSession,
+  setAuthSession,
+} from "utils/authUtils";
 
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,8 +23,21 @@ export const firebaseConfig = {
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth();
-export const firebaseLogout = firebaseAuth.signOut;
+initializeApp(firebaseConfig);
 
-export const firebaseDB = getDatabase(app);
+export const firebaseAuth = getAuth();
+
+onAuthStateChanged(firebaseAuth, (user) => {
+  if (user) {
+    if (!isAuthSession()) {
+      setAuthSession();
+    }
+  } else {
+    if (isAuthSession()) {
+      closeAuthSession();
+    }
+  }
+});
+
+export const isFirebaseError = (error: any): error is FirebaseError =>
+  "code" in error && "message" in error;

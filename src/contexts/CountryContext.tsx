@@ -179,8 +179,6 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
     setCurrencyTable(undefined);
   }, []);
 
-  console.log({ paymentDate });
-
   return (
     <CountryContext.Provider
       value={{
