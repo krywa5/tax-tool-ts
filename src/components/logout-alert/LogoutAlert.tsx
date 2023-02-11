@@ -10,7 +10,7 @@ import { closeAuthSession } from "utils/authUtils";
 
 export const LogoutAlert: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { setIsUserLogged, setSelectedCountry } = useContext(AppContext);
+  const { setIsUserLogged } = useContext(AppContext);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const clickHandler = () => {
@@ -19,7 +19,6 @@ export const LogoutAlert: FunctionComponent = () => {
         closeAuthSession();
         navigate(PATHS.loginPage);
         setIsUserLogged(false);
-        setSelectedCountry("");
       })
       .catch((err) => {
         toast.error("Wystąpił błąd podczas wylogowywania");

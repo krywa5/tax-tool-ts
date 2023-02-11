@@ -12,7 +12,6 @@ export const firebaseLogin = async (
       // Signed in
       const user = userCredential.user;
       const userEmail = user.email ?? "Nieznany user";
-      console.log(`Zalogowano jako: ${userEmail}`);
       return user;
     })
     .catch((error) => {

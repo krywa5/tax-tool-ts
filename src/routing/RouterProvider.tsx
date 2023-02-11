@@ -5,6 +5,7 @@ import {
   RouterProvider as RRDRouterProvider,
 } from "react-router-dom";
 
+import { Country } from "components/country/Country";
 import { Login } from "pages/login/Login";
 import { TaxTool } from "pages/tax-tool/TaxTool";
 import { PATHS } from "routing/paths";
@@ -18,6 +19,12 @@ const router = createBrowserRouter([
   {
     path: PATHS.home,
     element: <TaxTool />,
+    children: [
+      {
+        path: `tax-tool/:countryId`,
+        element: <Country />,
+      },
+    ],
   },
   {
     path: PATHS.loginPage,

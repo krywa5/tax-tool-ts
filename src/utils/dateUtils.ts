@@ -50,7 +50,6 @@ export const getLastWorkingDay = (date: Date): string => {
   innerDate.setDate(innerDate.getDate() - 1); // always subtract one day from original date
 
   for (let i = 0; i < 7; i++) {
-    // console.log(`Iteration nr ${i + 1}`);
     isDayOffInPoland(innerDate) ? (isDayOff = true) : (isDayOff = false);
 
     if (isDayOff) {
@@ -60,7 +59,6 @@ export const getLastWorkingDay = (date: Date): string => {
     }
   }
 
-  // console.log(`ostateczna data: ${innerDate.toISOString().slice(0, 10)}`);
   return innerDate.toISOString().slice(0, 10);
 };
 
@@ -72,16 +70,13 @@ export const toPolishDateFormat = (date: string): string => {
 
 // TODO: zmienić typy date, zmienić nazwę na calculateDateDifferenceInDays, usunąć ts-expect-error
 export const dateDiff = (
-  startDate: string,
-  endDate: string,
+  startDate: Date,
+  endDate: Date,
   daysToSubtract = 0,
 ): number => {
-  const startDateObj = new Date(startDate);
-  const endDateObj = new Date(endDate);
-
   return Math.abs(
     // @ts-expect-error
-    Math.round((endDateObj - startDateObj) / (1000 * 60 * 60 * 24)) -
+    Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) -
       daysToSubtract +
       1,
   ); // +1 because we include end date
@@ -91,3 +86,5 @@ export const dateDiff = (
 export const daysToMonths = (days: number): number => {
   return Math.max(Math.round(days / 30), 1); // 1 month is the minimum value
 };
+
+export const isValidDate = (date: Date): boolean => !isNaN(date.getTime());

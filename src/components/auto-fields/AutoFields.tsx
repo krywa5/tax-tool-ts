@@ -6,17 +6,18 @@ import { InputField } from "components/input-field/InputField";
 import { InputLabel } from "components/input-label/InputLabel";
 import { LoadingBackdrop } from "components/loading-backdrop/LoadingBackdrop";
 import { CountryContext } from "contexts/CountryContext";
+import { useCountryData } from "hooks/useCountryData";
 import { Printable, Stylable } from "types/ComponentTypes";
-import { toPolishDateFormat } from "utils/dateUtils";
+import { CountryId } from "types/Country";
+
+interface AutoFieldsProps {
+  selectedCountry: CountryId;
+}
 
 // TODO: Rozbić
-export const AutoFields: FunctionComponent<Stylable & Printable> = ({
-  className,
-  "data-print": dataPrint,
-}) => {
-  const { countryData, calculator, setCalculatorValue } =
-    useContext(CountryContext);
-
+export const AutoFields: FunctionComponent<
+  AutoFieldsProps & Stylable & Printable
+> = ({ className, "data-print": dataPrint, selectedCountry }) => {
   const {
     currencyValueDate,
     currencyTable,
@@ -24,14 +25,19 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
     workMonths,
     dailyDiet,
     workDays,
-    taxValue,
-    allIncomeValue,
-    isDataFetching,
-  } = calculator;
+    taxPLN,
+    incomePLN,
+    isCurrencyDataFetching,
+    setCurrencyValue,
+    setWorkMonths,
+    setDailyDiet,
+    setWorkDays,
+  } = useContext(CountryContext);
+  const { countryData } = useCountryData(selectedCountry);
 
   return (
     <Container className={className} maxWidth={false} data-print={dataPrint}>
-      {isDataFetching && <LoadingBackdrop />}
+      {isCurrencyDataFetching && <LoadingBackdrop />}
       {countryData.inputs.auto.includes("currencyValue") && (
         <InputField>
           <InputLabel
@@ -39,7 +45,9 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
             labelFor="currencyValue"
             subLabels={
               currencyValueDate
-                ? `${toPolishDateFormat(currencyValueDate)}, ${currencyTable}`
+                ? `${currencyValueDate.toLocaleDateString()}, ${
+                    currencyTable ?? ""
+                  }`
                 : ""
             }
           />
@@ -49,11 +57,8 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
             variant="outlined"
             label="Kurs waluty"
             value={currencyValue.toFixed(4)}
-            onChange={(e: any) =>
-              setCalculatorValue(
-                "currencyValue",
-                Number(Number(e.target.value).toFixed(4)),
-              )
+            onChange={(e) =>
+              setCurrencyValue(Number(Number(e.target.value).toFixed(4)))
             }
             InputLabelProps={{ shrink: true }}
             InputProps={{
@@ -77,9 +82,7 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
             variant="outlined"
             InputLabelProps={{ shrink: true }}
             value={workMonths}
-            onChange={(e: any) =>
-              setCalculatorValue("workMonths", Number(e.target.value))
-            }
+            onChange={(e) => setWorkMonths(Number(e.target.value))}
             label="Ilość miesięcy zagranicą"
             InputProps={{
               inputProps: {
@@ -99,11 +102,8 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
             variant="outlined"
             label="Wysokość diety za dzień"
             value={dailyDiet.toFixed(2)}
-            onChange={(e: any) =>
-              setCalculatorValue(
-                "dailyDiet",
-                Number(Number(e.target.value).toFixed(2)),
-              )
+            onChange={(e) =>
+              setDailyDiet(Number(Number(e.target.value).toFixed(2)))
             }
             InputLabelProps={{ shrink: true }}
             InputProps={{
@@ -129,9 +129,7 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
             variant="outlined"
             label="Ilość dni zagranicą"
             value={workDays}
-            onChange={(e: any) =>
-              setCalculatorValue("workDays", Number(e.target.value))
-            }
+            onChange={(e) => setWorkDays(Number(e.target.value))}
             InputLabelProps={{ shrink: true }}
             InputProps={{
               inputProps: {
@@ -166,21 +164,21 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
           />
         </InputField>
       )}
-      {countryData.inputs.auto.includes("taxValue") && (
+      {countryData.inputs.auto.includes("taxPLN") && (
         <InputField>
           <InputLabel
             label="Wartość podatku"
-            labelFor="taxValue"
-            subLabels={countryData.sublabels.taxValue}
+            labelFor="taxPLN"
+            subLabels={countryData.subLabels.taxPLN}
           />
           <ClickableField>
             <TextField
-              id="taxValue"
+              id="taxPLN"
               type="number"
               variant="outlined"
               label="Wartość podatku"
               InputLabelProps={{ shrink: true }}
-              value={taxValue.toFixed(2)}
+              value={taxPLN.toFixed(2)}
               InputProps={{
                 inputProps: {
                   min: 0,
@@ -195,20 +193,20 @@ export const AutoFields: FunctionComponent<Stylable & Printable> = ({
           </ClickableField>
         </InputField>
       )}
-      {countryData.inputs.auto.includes("allIncomeValue") && (
+      {countryData.inputs.auto.includes("incomePLN") && (
         <InputField>
           <InputLabel
             label="Wartość przychodu"
-            labelFor="allIncomeValue"
-            subLabels={countryData.sublabels.allIncomeValue}
+            labelFor="incomePLN"
+            subLabels={countryData.subLabels.incomePLN}
           />
           <ClickableField>
             <TextField
-              id="allIncomeValue"
+              id="incomePLN"
               type="number"
               variant="outlined"
               label="Wartość przychodu"
-              value={allIncomeValue.toFixed(2)}
+              value={incomePLN.toFixed(2)}
               InputLabelProps={{ shrink: true }}
               InputProps={{
                 inputProps: {

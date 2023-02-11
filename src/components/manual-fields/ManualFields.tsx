@@ -4,20 +4,23 @@ import { Container, InputAdornment, TextField } from "@mui/material";
 import { InputField } from "components/input-field/InputField";
 import { InputLabel } from "components/input-label/InputLabel";
 import { CountryContext } from "contexts/CountryContext";
+import { useCountryData } from "hooks/useCountryData";
 import { Printable, Stylable } from "types/ComponentTypes";
+import { CountryId } from "types/Country";
 import { strToNum } from "utils/stringUtils";
 
 interface ManualFieldsProps extends Stylable, Printable {
   firstInput: Ref<HTMLInputElement>;
+  selectedCountry: CountryId;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
   firstInput,
+  selectedCountry,
   className,
   "data-print": dataPrint,
 }) => {
-  const { countryData, calculator, setCalculatorValue } =
-    useContext(CountryContext);
   const {
     income,
     holidayIncome,
@@ -26,7 +29,15 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
     endDate,
     paymentDate,
     daysInPoland,
-  } = calculator;
+    setIncome,
+    setHolidayIncome,
+    setPaidTax,
+    setStartDate,
+    setEndDate,
+    setPaymentDate,
+    setDaysInPoland,
+  } = useContext(CountryContext);
+  const { countryData } = useCountryData(selectedCountry);
 
   return (
     <Container maxWidth={false} className={className} data-print={dataPrint}>
@@ -42,11 +53,9 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             label="Przychód"
             type="number"
             variant="outlined"
-            value={income}
+            value={income ?? ""}
             autoFocus
-            onChange={(e) =>
-              setCalculatorValue("income", strToNum(e.target.value))
-            }
+            onChange={(e) => setIncome(strToNum(e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -74,10 +83,8 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             label="Przychód wakacyjny"
             type="number"
             variant="outlined"
-            value={holidayIncome}
-            onChange={(e) =>
-              setCalculatorValue("holidayIncome", strToNum(e.target.value))
-            }
+            value={holidayIncome ?? ""}
+            onChange={(e) => setHolidayIncome(strToNum(e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -104,10 +111,8 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             label="Podatek"
             type="number"
             variant="outlined"
-            value={paidTax}
-            onChange={(e) =>
-              setCalculatorValue("paidTax", strToNum(e.target.value))
-            }
+            value={paidTax ?? ""}
+            onChange={(e) => setPaidTax(strToNum(e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -130,7 +135,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             type="date"
             defaultValue={startDate}
             variant="outlined"
-            onBlur={(e) => setCalculatorValue("startDate", e.target.value)}
+            onBlur={(e) => setStartDate(new Date(e.target.value))}
             InputProps={{
               inputProps: {
                 max: new Date().toISOString().slice(0, 10),
@@ -147,7 +152,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             type="date"
             variant="outlined"
             defaultValue={endDate}
-            onBlur={(e) => setCalculatorValue("endDate", e.target.value)}
+            onBlur={(e) => setEndDate(new Date(e.target.value))}
             InputProps={{
               inputProps: {
                 max: new Date().toISOString().slice(0, 10),
@@ -162,7 +167,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             label="Dzień wypłaty"
             labelFor="paymentDate"
             subLabels={[
-              countryData.intl.paymentDate,
+              countryData.intl.paymentDate ?? "",
               "Wypełnić jeśli inny niż ostatni dzień pracy",
             ]}
           />
@@ -171,7 +176,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             type="date"
             variant="outlined"
             defaultValue={paymentDate}
-            onBlur={(e) => setCalculatorValue("paymentDate", e.target.value)}
+            onBlur={(e) => setPaymentDate(new Date(e.target.value))}
             InputProps={{
               inputProps: {
                 max: new Date().toISOString().slice(0, 10),
@@ -193,10 +198,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             label="Dni w Polsce"
             value={daysInPoland}
             onChange={(e) =>
-              setCalculatorValue(
-                "daysInPoland",
-                Math.floor(Number(e.target.value)),
-              )
+              setDaysInPoland(Math.floor(Number(e.target.value)))
             }
             InputProps={{
               inputProps: {

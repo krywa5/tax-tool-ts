@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 
 import {
   CancelOutlined as CancelOutlinedIcon,
@@ -13,14 +13,20 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { CountryContext } from "contexts/CountryContext";
+import { useCountryData } from "hooks/useCountryData";
+import { CountryId } from "types/Country";
 
-export const TipsPanel: FunctionComponent = () => {
-  const { countryData } = useContext(CountryContext);
+interface TipsPanelProps {
+  selectedCountry: CountryId;
+}
+
+export const TipsPanel: FunctionComponent<TipsPanelProps> = ({
+  selectedCountry,
+}) => {
+  const { countryData } = useCountryData(selectedCountry);
   const [isTipsActive, setIsTipsActive] = useState(false);
 
-  const { tips } = countryData;
-  const areTipsAvailable = !!tips?.length;
+  const areTipsAvailable = !!countryData?.tips?.length;
 
   return (
     <>
@@ -48,7 +54,7 @@ export const TipsPanel: FunctionComponent = () => {
               </Title>
               <StyledList>
                 {/*  TODO: Usunąć typowanie explicite */}
-                {tips.map((tip: string, i: number) => (
+                {countryData?.tips?.map((tip: string, i: number) => (
                   <StyledListItem key={i}>
                     <Typography variant="body1">{tip}</Typography>
                   </StyledListItem>

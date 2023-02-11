@@ -64,7 +64,7 @@ export const OverallCounters: FunctionComponent<OverallCountersProps> = ({
   return (
     <TableRow>
       {emptyCols}
-      <OverallTableCell>Łącznie</OverallTableCell>
+      <OverallTableCell isClickable={false}>Łącznie</OverallTableCell>
       {isTaxAbroad && (
         <OverallTableCell>
           <ClickableField>{numToStr(taxAbroad)}</ClickableField>
@@ -94,12 +94,15 @@ const EmptyTableCell = styled(TableCell)({
   border: "unset",
 });
 
-const OverallTableCell = styled(TableCell)(({ theme }) => ({
+const OverallTableCell = styled(TableCell, {
+  shouldForwardProp: (prop) => prop !== "isClickable",
+})<{ isClickable?: boolean }>(({ theme, isClickable = true }) => ({
   fontSize: "1.25rem",
   color: theme.palette.common.black,
   fontWeight: "600",
+  border: "unset",
 
   "&:hover": {
-    color: theme.palette.primary.main,
+    color: isClickable ? theme.palette.primary.main : undefined,
   },
 }));

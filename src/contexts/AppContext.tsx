@@ -2,87 +2,55 @@ import React, {
   createContext,
   FunctionComponent,
   PropsWithChildren,
-  useEffect,
   useState,
 } from "react";
 
-import { child, get, ref } from "firebase/database";
-import { firebaseDB } from "infrastructure/services/firebase/firebase.service";
+import { countriesData } from "assets/data/countries/countriesData";
 import { StateSetter } from "types/AppTypes";
+import { AvailableYear } from "types/AvailableYear";
 import { Country } from "types/Country";
 
 const appContextInitState: AppContextType = {
-  selectedCountry: null,
-  setSelectedCountry: () => null,
-  countriesData: [],
-  setCountriesData: () => [],
   isUserLogged: false,
   setIsUserLogged: () => false,
-  selectedYear: new Date().getFullYear() - 1,
+  selectedYear: (new Date().getFullYear() - 1).toString(),
   setSelectedYear: () => 0,
-  availableYears: [new Date().getFullYear() - 1],
-  setAvailableYears: () => [0],
+  availableYears: [],
+  countriesData: {},
 };
 
 interface AppContextType {
-  selectedCountry: string | null;
-  setSelectedCountry: StateSetter<string | null>;
-  countriesData: Country[];
-  setCountriesData: StateSetter<Country[]>;
   isUserLogged: boolean;
   setIsUserLogged: StateSetter<boolean>;
-  selectedYear: number;
-  setSelectedYear: StateSetter<number>;
-  availableYears: number[];
-  setAvailableYears: StateSetter<number[]>;
+  selectedYear: AvailableYear;
+  setSelectedYear: StateSetter<AvailableYear>;
+  availableYears: AvailableYear[];
+  countriesData: Record<AvailableYear, Country[]>;
 }
 
 export const AppContext = createContext<AppContextType>(appContextInitState);
 
-// TODO: Rozbić to na mniejsze konteksty
+const availableYearSorted: AvailableYear[] = Object.keys(countriesData)
+  .map((year) => Number(year))
+  .sort((a, b) => a - b)
+  .map((year) => year.toString());
+const latestAvailableYear = availableYearSorted[availableYearSorted.length - 1];
+
 export const AppProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [countriesData, setCountriesData] = useState<Country[]>([]);
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(
-    new Date().getFullYear() - 1,
-  );
-  const [availableYears, setAvailableYears] = useState([
-    new Date().getFullYear() - 1,
-  ]);
-
-  // Get data from DB and set available years
-  useEffect(() => {
-    const countriesDataRef = ref(firebaseDB);
-    get(child(countriesDataRef, "countries"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const response = Object.keys(snapshot.val()).map(Number);
-          setAvailableYears(response);
-        } else {
-          console.warn("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+  const [selectedYear, setSelectedYear] = useState(latestAvailableYear);
 
   return (
     <AppContext.Provider
       value={{
-        selectedCountry,
-        setSelectedCountry,
-        countriesData,
-        setCountriesData,
         isUserLogged,
         setIsUserLogged,
         selectedYear,
         setSelectedYear,
-        availableYears,
-        setAvailableYears,
+        availableYears: availableYearSorted,
+        countriesData,
       }}
     >
       {children}

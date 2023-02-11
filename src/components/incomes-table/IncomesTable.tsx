@@ -11,16 +11,26 @@ import {
   TableFooter,
   TableHead,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import { ClickableField } from "components/clickable-field/ClickableField";
 import { OverallCounters } from "components/overall-counters/OverallCounters";
-import { CountryContext } from "contexts/CountryContext";
-import { toPolishDateFormat } from "utils/dateUtils";
+import { IncomesTableContext } from "contexts/IncomesTableContext";
+import { useCountryData } from "hooks/useCountryData";
+import { CountryId } from "types/Country";
 import { numToStr } from "utils/numberUtils";
 
-const IncomesTableBase: FunctionComponent = () => {
-  const { removeIncome, countryData, calculator } = useContext(CountryContext);
-  const incomeList = calculator.incomes;
+interface IncomesTableProps {
+  selectedCountry: CountryId;
+}
+
+// eslint-disable-next-line max-lines-per-function
+const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
+  selectedCountry,
+}) => {
+  const { countryData } = useCountryData(selectedCountry);
+  const { removeIncome, incomes: incomesList } =
+    useContext(IncomesTableContext);
 
   const { manual: manualFields, auto: autoFields } = countryData.inputs;
 
@@ -34,8 +44,8 @@ const IncomesTableBase: FunctionComponent = () => {
   const countersKeys = {
     isTaxAbroad: manualFields.includes("paidTax"),
     isIncomeAbroad: manualFields.includes("income"),
-    isTaxPLN: autoFields.includes("taxValue"),
-    isIncomePLN: autoFields.includes("allIncomeValue"),
+    isTaxPLN: autoFields.includes("taxPLN"),
+    isIncomePLN: autoFields.includes("incomePLN"),
   };
 
   return (
@@ -67,17 +77,17 @@ const IncomesTableBase: FunctionComponent = () => {
             {manualFields.includes("income") && (
               <TableCell>Przychód {countryData.currency}</TableCell>
             )}
-            {autoFields.includes("taxValue") && (
+            {autoFields.includes("taxPLN") && (
               <TableCell>Podatek PLN</TableCell>
             )}
-            {autoFields.includes("allIncomeValue") && (
+            {autoFields.includes("incomePLN") && (
               <TableCell>Przychód PLN</TableCell>
             )}
-            <TableCell className="no-print"></TableCell>
+            <PrintColumnCell data-print={false}></PrintColumnCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {incomeList.map((incomeData, index) => {
+          {incomesList.map((incomeData, index) => {
             const {
               id,
               startDate,
@@ -99,20 +109,27 @@ const IncomesTableBase: FunctionComponent = () => {
             overallValues.taxPLN += taxPLN;
             overallValues.incomePLN += incomePLN;
 
+            console.log({
+              paymentDate,
+              endDate,
+            });
+
             return (
               <TableRow key={id}>
                 <TableCell>{index + 1}.</TableCell>
                 {manualFields.includes("startDate") && (
-                  <TableCell>{toPolishDateFormat(startDate)}</TableCell>
+                  <TableCell>{startDate.toLocaleDateString()}</TableCell>
                 )}
                 {manualFields.includes("endDate") && (
-                  <TableCell>{toPolishDateFormat(endDate)}</TableCell>
+                  <TableCell>{endDate.toLocaleDateString()}</TableCell>
                 )}
                 {manualFields.includes("paymentDate") && (
-                  <TableCell>{toPolishDateFormat(paymentDate)}</TableCell>
+                  <TableCell>
+                    {(paymentDate ?? endDate).toLocaleDateString()}
+                  </TableCell>
                 )}
                 {manualFields.includes("daysInPoland") && (
-                  <TableCell>{Number(daysInPoland)}</TableCell>
+                  <TableCell>{daysInPoland}</TableCell>
                 )}
                 <TableCell>{currencyTable}</TableCell>
                 <TableCell>{numToStr(currencyValue, 4)}</TableCell>
@@ -125,25 +142,27 @@ const IncomesTableBase: FunctionComponent = () => {
                 {manualFields.includes("income") && (
                   <TableCell>{numToStr(incomeAbroad)}</TableCell>
                 )}
-                {autoFields.includes("taxValue") && (
+                {autoFields.includes("taxPLN") && (
                   <TableCell>
                     <ClickableField>{numToStr(taxPLN)}</ClickableField>
                   </TableCell>
                 )}
-                {autoFields.includes("allIncomeValue") && (
+                {autoFields.includes("incomePLN") && (
                   <TableCell>
                     <ClickableField>{numToStr(incomePLN)}</ClickableField>
                   </TableCell>
                 )}
-                <TableCell className="no-print">
-                  <StyledIconButton
-                    aria-label="delete"
-                    size="small"
-                    onClick={() => removeIncome(id)}
-                  >
-                    <DeleteForeverOutlinedIcon />
-                  </StyledIconButton>
-                </TableCell>
+                <PrintColumnCell data-print={false}>
+                  <Tooltip title="Usuń pozycję" placement="top">
+                    <StyledIconButton
+                      aria-label="delete"
+                      size="small"
+                      onClick={() => removeIncome(id)}
+                    >
+                      <DeleteForeverOutlinedIcon />
+                    </StyledIconButton>
+                  </Tooltip>
+                </PrintColumnCell>
               </TableRow>
             );
           })}
@@ -187,5 +206,9 @@ const StyledTable = styled(Table)({
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.dark,
 }));
+
+const PrintColumnCell = styled(TableCell)({
+  padding: 0,
+});
 
 export const IncomesTable = React.memo(IncomesTableBase);

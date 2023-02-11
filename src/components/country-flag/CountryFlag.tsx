@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { FunctionComponent } from "react";
+import { NavLink, useParams } from "react-router-dom";
 
 import { styled, Tooltip } from "@mui/material";
 import belgiumFlag from "assets/images/flags/belgium.jpg";
@@ -9,7 +9,6 @@ import netherlandsFlag from "assets/images/flags/netherlands.jpg";
 import noFlag from "assets/images/flags/no-flag.jpg";
 import norwayFlag from "assets/images/flags/norway.png";
 import switzerlandFlag from "assets/images/flags/switzerland.png";
-import { AppContext } from "contexts/AppContext";
 import { PATHS } from "routing/paths";
 import { CountryId } from "types/Country";
 
@@ -22,9 +21,7 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
   country,
   countryLabel,
 }) => {
-  const navigate = useNavigate();
-  const { selectedCountry, setSelectedCountry } = useContext(AppContext);
-
+  const { countryId: selectedCountry } = useParams();
   const flagImg = (() => {
     switch (country) {
       case "belgium":
@@ -44,24 +41,19 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
     }
   })();
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const clickHandler = () => {
-    if (country === selectedCountry) {
-      setSelectedCountry("");
-      navigate(`${PATHS.home}`);
-    } else {
-      setSelectedCountry(country);
-      navigate(`${PATHS.home}/${country}`);
-    }
-  };
-
   return (
     <Tooltip title={countryLabel} placement="bottom">
-      <FlagListItem
-        data-selected={country === selectedCountry}
-        onClick={clickHandler}
-      >
-        <FlagImg src={flagImg} alt="country flag" />
+      {/* TODO: data-selected raczej nie potrzebne bo Navlink i active */}
+      <FlagListItem data-selected={country === selectedCountry}>
+        <NavLink
+          to={
+            country === selectedCountry
+              ? PATHS.home
+              : `${PATHS.home}/${country}`
+          }
+        >
+          <FlagImg src={flagImg} alt="country flag" />
+        </NavLink>
       </FlagListItem>
     </Tooltip>
   );
@@ -100,7 +92,7 @@ const FlagListItem = styled("li")(({ theme }) => ({
     },
   },
   "&[data-selected='true']": {
-    outline: `3px solid ${theme.palette.secondary.main}`,
+    outline: `5px solid ${theme.palette.secondary.main}`,
   },
 }));
 

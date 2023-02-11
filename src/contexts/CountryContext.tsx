@@ -3,311 +3,221 @@ import React, {
   FunctionComponent,
   PropsWithChildren,
   useCallback,
-  useEffect,
   useState,
 } from "react";
-import { toast } from "react-toastify";
 
-import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
-import { GuidString } from "types/AppTypes";
 import { Calculator } from "types/Calculator";
-import { Country } from "types/Country";
-import { Income } from "types/Income";
-import { sortByKey } from "utils/arrayUtils";
-import { dateDiff, daysToMonths, getLastWorkingDay } from "utils/dateUtils";
+import { isValidDate } from "utils/dateUtils";
 
 export const CountryContext = createContext<CountryContextType>({
-  addNewIncome: () => {},
-  calculator: {
-    income: 0,
-    paidTax: 0,
-    holidayIncome: 0,
-    startDate: "",
-    endDate: "",
-    paymentDate: "",
-    incomes: [],
-    currencyValue: 0,
-    currencyValueDate: "",
-    currencyTable: "",
-    dailyDiet: 0,
-    workDays: 0,
-    workMonths: 0,
-    daysInPoland: 0,
-    taxValue: 0,
-    allIncomeValue: 0,
-    isDataFetching: false,
-  },
-  countryData: {},
-  removeIncome: () => {},
-  setCalculatorValue: () => {},
-  setCountryValue: () => {},
+  income: undefined, // przychód brutto
+  paidTax: undefined, // zapłacony podatek zagranicą
+  holidayIncome: undefined, // przychód wakacyjny (tylko w Niemczech)
+  startDate: undefined, // data rozpoczęcia pracy
+  endDate: undefined, // data zakończenia pracy
+  paymentDate: undefined, // data wypłaty
+  currencyValue: 0, // średni kurs waluty z NBP
+  currencyValueDate: undefined, // data średniego kursu waluty z NBP
+  currencyTable: "", // tabela waluty
+  dailyDiet: 0, // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
+  workDays: 0, // ilość dni zagranicą
+  workMonths: 0, // ilość miesięcy zagranicą
+  daysInPoland: 0, // ilość spędzonych w Polsce podczas pracy zagranicą
+  taxPLN: 0, // podatek PLN
+  incomePLN: 0, // przychód PLN
+  isCurrencyDataFetching: false, // flaga gdy pobieranie danych o walucie
+  setIsCurrencyDataFetching: () => {},
+  setIncomePLN: () => {},
+  setTaxPLN: () => {},
+  setDaysInPoland: () => {},
+  setWorkMonths: () => {},
+  setWorkDays: () => {},
+  setDailyDiet: () => {},
+  setCurrencyTable: () => {},
+  setCurrencyValueDate: () => {},
+  setCurrencyValue: () => {},
+  setPaymentDate: () => {},
+  setEndDate: () => {},
+  setStartDate: () => {},
+  setHolidayIncome: () => {},
+  setPaidTax: () => {},
+  setIncome: () => {},
+  resetManualInputs: () => {},
+  resetCurrencyData: () => {},
 });
 
-interface CountryContextType {
-  countryData: Country | null;
-  setCountryValue: <Q>(key: keyof Country, value: Q) => void;
-  calculator: Calculator;
-  setCalculatorValue: <Q>(key: keyof Calculator, value: Q) => void;
-  addNewIncome: (income: Income) => void;
-  removeIncome: (incomeId: GuidString) => void;
+interface CalculatorHandlers {
+  setIncome: (incomeValue: number) => void;
+  setPaidTax: (paidTaxValue: number) => void;
+  setHolidayIncome: (paidTaxValue: number) => void;
+  setStartDate: (startDate: Date) => void;
+  setEndDate: (endDate: Date) => void;
+  setPaymentDate: (paymentDate: Date) => void;
+  setCurrencyValue: (currencyValue: number) => void;
+  setCurrencyValueDate: (currencyValueDate: Date) => void;
+  setCurrencyTable: (currencyTable: string) => void;
+  setDailyDiet: (dailyDiet: number) => void;
+  setWorkDays: (workDays: number) => void;
+  setWorkMonths: (workMoths: number) => void;
+  setDaysInPoland: (daysInPoland: number) => void;
+  setTaxPLN: (taxPLN: number) => void;
+  setIncomePLN: (incomePLN: number) => void;
 }
 
-interface CountryProviderProps {
-  data: Country | null;
+interface CountryContextType extends Calculator, CalculatorHandlers {
+  setIsCurrencyDataFetching: (isFetching: boolean) => void;
+  resetManualInputs: () => void;
+  resetCurrencyData: () => void;
 }
 
-// TODO: Wywalić propsy z providera
-export const CountryProvider: FunctionComponent<
-  PropsWithChildren<CountryProviderProps>
-> = ({ data, children }) => {
-  const [countryData, setCountryData] = useState<Country | null>(data);
-  const [calculator, setCalculator] = useState<Calculator>({
-    income: 0, // przychód brutto
-    paidTax: 0, // zapłacony podatek zagranicą
-    holidayIncome: 0, // przychód wakacyjny (tylko w Niemczech)
-    startDate: "", // data rozpoczęcia pracy
-    endDate: "", // data zakończenia pracy
-    paymentDate: "", // data wypłaty
-    incomes: [
-      // tablica do trzymania listy wyników kalkulatora
-      // {
-      //     id: 123123123,
-      //     startDate: '2019-01-01',
-      //     endDate: '2019-02-01',
-      //     currencyTable: 'asdasdsad',
-      //     currencyValue: 4.1252,
-      //     currencyValueDate: '2019-02-01',
-      //     daysInPoland: 2,
-      //     holidayIncome: 120,
-      //     incomeAbroad: 1600,
-      //     incomePLN: 4012.12,
-      //     paidTax: 100.12,
-      //     paymentDate: '2019-01-31',
-      //     taxPLN: 400.55,
-      // },
-      // {
-      //     id: 123123112318,
-      //     startDate: '2019-01-01',
-      //     endDate: '2019-02-01',
-      //     currencyTable: 'asdasdsad',
-      //     currencyValue: 4.1252,
-      //     currencyValueDate: '2019-02-01',
-      //     daysInPoland: 2,
-      //     holidayIncome: 120,
-      //     incomeAbroad: 1600,
-      //     incomePLN: 4012.12,
-      //     paidTax: 100.12,
-      //     paymentDate: '2019-01-31',
-      //     taxPLN: 400.55,
-      // },
-      // {
-      //     id: 12312311232118,
-      //     startDate: '2019-01-01',
-      //     endDate: '2019-02-01',
-      //     currencyTable: 'asdasdsad',
-      //     currencyValue: 4.1252,
-      //     currencyValueDate: '2019-02-01',
-      //     daysInPoland: 2,
-      //     holidayIncome: 120,
-      //     incomeAbroad: 1600,
-      //     incomePLN: 30012.12,
-      //     paidTax: 100.12,
-      //     paymentDate: '2019-01-31',
-      //     taxPLN: 400.55,
-      // },
-    ],
-    currencyValue: 0, // średni kurs waluty z NBP
-    currencyValueDate: "", // data średniego kursu waluty z NBP
-    currencyTable: "", // tabela waluty
-    dailyDiet: Number((countryData.diet * countryData.dietFactor).toFixed(2)), // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
-    workDays: 0, // ilość dni zagranicą
-    workMonths: 0, // ilość miesięcy zagranicą
-    daysInPoland: 0, // ilość spędzonych w Polsce podczas pracy zagranicą
-    taxValue: 0, // podatek PLN
-    allIncomeValue: 0, // przychód PLN
-    isDataFetching: false, // flaga gdy pobieranie danych o walucie
-  });
-
-  const setCalculatorValue = useCallback<
-    <Q>(key: keyof Calculator, value: Q) => void
-  >((key, value) => {
-    setCalculator((prevValue) => ({
-      ...prevValue,
-      [key]: value,
-    }));
-  }, []);
-
-  const setCountryValue = useCallback<
-    <Q>(key: keyof Country, value: Q) => void
-  >((key, value) => {
-    setCountryData((prevValue: any) => ({
-      ...prevValue,
-      [key]: value,
-    }));
-  }, []);
-
-  const clearAPIValues = useCallback(() => {
-    setCalculatorValue("currencyValue", 0);
-    setCalculatorValue("currencyValueDate", "");
-    setCalculatorValue("currencyTable", "");
-  }, [setCalculatorValue]);
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const showDataLoader = () => {
-    setCalculatorValue("isDataFetching", true);
-  };
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const hideDataLoader = () => {
-    setCalculatorValue("isDataFetching", false);
-  };
-
-  const addNewIncome = (income = {}): void => {
-    setCalculatorValue(
-      "incomes",
-      // TODO: Wywalić ts-espect-error
-      // @ts-expect-error
-      sortByKey([...calculator.incomes, income], "startDate"),
-    );
-  };
-
-  const removeIncome = (incomeId: GuidString): void => {
-    const state = [...calculator.incomes];
-    const newIncomes = state.filter((income) => income.id !== incomeId);
-
-    return setCalculatorValue("incomes", newIncomes);
-  };
-
-  // Calculate/recalculate calculator values dependent on start and end dates
-  useEffect(
-    () => {
-      const { startDate, endDate, paymentDate, daysInPoland, workDays } =
-        calculator;
-
-      if (startDate && (endDate || paymentDate)) {
-        setCalculatorValue(
-          "workDays",
-          dateDiff(startDate, endDate, daysInPoland),
-        );
-        setCalculatorValue("workMonths", daysToMonths(workDays));
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      setCalculatorValue,
-      calculator.startDate,
-      calculator.endDate,
-      calculator.paymentDate,
-      calculator.daysInPoland,
-      calculator.workDays,
-    ],
+// TODO: Zmienić nazwę na coś w stylu TaxCalculator
+// eslint-disable-next-line max-statements
+export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
+  children,
+}) => {
+  // TODO: sprawdzić czy zamiast undefined można dać null
+  const [income, setIncome] = useState<number | undefined>(5000);
+  const [paidTax, setPaidTax] = useState<number | undefined>(500);
+  const [holidayIncome, setHolidayIncome] = useState<number | undefined>(
+    undefined,
   );
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [paymentDate, setPaymentDate] = useState<Date | undefined>(undefined);
+  const [currencyValue, setCurrencyValue] = useState(0);
+  const [currencyValueDate, setCurrencyValueDate] = useState<Date | undefined>(
+    undefined,
+  );
+  const [currencyTable, setCurrencyTable] = useState<string | undefined>(
+    undefined,
+  );
+  const [dailyDiet, setDailyDiet] = useState(0);
+  const [workDays, setWorkDays] = useState(0);
+  const [workMonths, setWorkMonths] = useState(0);
+  const [daysInPoland, setDaysInPoland] = useState(0);
+  const [taxPLN, setTaxPLN] = useState(0);
+  const [incomePLN, setIncomePLN] = useState(0);
+  const [isCurrencyDataFetching, setIsCurrencyDataFetching] = useState(false);
 
-  // Get currency API values if end date or payment date has changed
-  useEffect(() => {
-    const { endDate, paymentDate } = calculator;
-    const { currency } = countryData;
-
-    if (endDate || paymentDate) {
-      const properDate = paymentDate || endDate; // if paymentDate is inserted it has priority over endDate
-
-      clearAPIValues();
-      showDataLoader();
-
-      getExchangeRates(getLastWorkingDay(new Date(properDate)), currency)
-        .then((data) => {
-          const {
-            effectiveDate: currencyValueDate,
-            mid: currencyValueApi,
-            no: currencyTable,
-            // TODO: Naprawić typy
-            // @ts-expect-error
-          } = data.rates[0];
-
-          setCalculatorValue(
-            "currencyValue",
-            Number(currencyValueApi.toFixed(4)),
-          );
-          setCalculatorValue("currencyValueDate", currencyValueDate);
-          setCalculatorValue("currencyTable", currencyTable);
-        })
-        .catch((error) => {
-          toast.error(
-            "Wystąpił błąd przy pobieraniu danych waluty. Sprawdź czy masz połączenie z internetem lub czy podane daty są prawidłowe.",
-            {
-              position: "top-center",
-              toastId: "currency-data-error-toast",
-            },
-          );
-          console.error(error);
-        })
-        .finally(hideDataLoader);
+  const setIncomeHandler = useCallback(
+    (income: number) => setIncome(income),
+    [],
+  );
+  const setPaidTaxHandler = useCallback(
+    (paidTax: number) => setPaidTax(paidTax),
+    [],
+  );
+  const setHolidayIncomeHandler = useCallback(
+    (holidayIncome: number) => setHolidayIncome(holidayIncome),
+    [],
+  );
+  const setStartDateHandler = useCallback((startDate: Date) => {
+    if (isValidDate(startDate)) {
+      setStartDate(startDate);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    calculator.endDate,
-    calculator.paymentDate,
-    clearAPIValues,
-    countryData.currency,
-    setCalculatorValue,
-  ]);
+  }, []);
+  const setEndDateHandler = useCallback((endDate: Date) => {
+    if (isValidDate(endDate)) {
+      setEndDate(endDate);
+    }
+  }, []);
+  const setPaymentDateHandler = useCallback((paymentDate: Date) => {
+    if (isValidDate(paymentDate)) {
+      setPaymentDate(paymentDate);
+    }
+  }, []);
+  const setCurrencyValueHandler = useCallback(
+    (currencyValue: number) => setCurrencyValue(currencyValue),
+    [],
+  );
+  const setCurrencyValueDateHandler = useCallback((currencyValueDate: Date) => {
+    if (isValidDate(currencyValueDate)) {
+      setCurrencyValueDate(currencyValueDate);
+    }
+  }, []);
+  const setCurrencyTableHandler = useCallback(
+    (currencyTable: string) => setCurrencyTable(currencyTable),
+    [],
+  );
+  const setDailyDietHandler = useCallback(
+    (dailyDiet: number) => setDailyDiet(dailyDiet),
+    [],
+  );
+  const setWorkDaysHandler = useCallback(
+    (workDays: number) => setWorkDays(workDays),
+    [],
+  );
+  const setWorkMonthsHandler = useCallback(
+    (workMonths: number) => setWorkMonths(workMonths),
+    [],
+  );
+  const setDaysInPolandHandler = useCallback(
+    (daysInPoland: number) => setDaysInPoland(daysInPoland),
+    [],
+  );
+  const setTaxPLNHandler = useCallback(
+    (taxPLN: number) => setTaxPLN(taxPLN),
+    [],
+  );
+  const setIncomePLNHandler = useCallback(
+    (incomePLN: number) => setIncomePLN(incomePLN),
+    [],
+  );
+  const setIsCurrencyDataFetchingHandler = useCallback(
+    (isDataFetching: boolean) => setIsCurrencyDataFetching(isDataFetching),
+    [],
+  );
+  const resetManualInputs = useCallback(() => {
+    setIncome(undefined);
+    setPaidTax(undefined);
+    setHolidayIncome(undefined);
+    setDaysInPoland(0);
+  }, []);
+  const resetCurrencyData = useCallback(() => {
+    setCurrencyValue(0);
+    setCurrencyValueDate(undefined);
+    setCurrencyTable(undefined);
+  }, []);
 
-  // Calculate tax value [PLN]
-  useEffect(() => {
-    const { paidTax, currencyValue } = calculator;
-
-    const taxValue = paidTax * currencyValue;
-    const output = Math.max(Number(taxValue.toFixed(2)));
-
-    return setCalculatorValue("taxValue", output);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculator.currencyValue, calculator.paidTax, setCalculatorValue]);
-
-  // Calculate Income value [PLN]
-  useEffect(() => {
-    const {
-      currencyValue,
-      income,
-      holidayIncome,
-      workDays,
-      dailyDiet,
-      workMonths,
-    } = calculator;
-    const { monthlyIncomeCost } = countryData;
-
-    const allIncome =
-      (income + holidayIncome - workDays * dailyDiet) * currencyValue -
-      workMonths * monthlyIncomeCost;
-
-    const output = Math.max(Number(allIncome.toFixed(2)), 0);
-
-    return setCalculatorValue("allIncomeValue", output);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    calculator.currencyValue,
-    calculator.income,
-    calculator.holidayIncome,
-    calculator.workDays,
-    calculator.dailyDiet,
-    calculator.workMonths,
-    countryData.monthlyIncomeCost,
-    setCalculatorValue,
-  ]);
-
-  // change country data if selected year changed
-  useEffect(() => {
-    setCountryData(data);
-  }, [data]);
+  console.log({ paymentDate });
 
   return (
     <CountryContext.Provider
       value={{
-        countryData,
-        setCountryValue,
-        calculator,
-        setCalculatorValue,
-        addNewIncome,
-        removeIncome,
+        income,
+        setIncome: setIncomeHandler,
+        paidTax,
+        setPaidTax: setPaidTaxHandler,
+        holidayIncome,
+        setHolidayIncome: setHolidayIncomeHandler,
+        startDate,
+        setStartDate: setStartDateHandler,
+        endDate,
+        setEndDate: setEndDateHandler,
+        paymentDate,
+        setPaymentDate: setPaymentDateHandler,
+        currencyValue,
+        setCurrencyValue: setCurrencyValueHandler,
+        currencyValueDate,
+        setCurrencyValueDate: setCurrencyValueDateHandler,
+        currencyTable,
+        setCurrencyTable: setCurrencyTableHandler,
+        dailyDiet,
+        setDailyDiet: setDailyDietHandler,
+        workDays,
+        setWorkDays: setWorkDaysHandler,
+        workMonths,
+        setWorkMonths: setWorkMonthsHandler,
+        daysInPoland,
+        setDaysInPoland: setDaysInPolandHandler,
+        taxPLN,
+        setTaxPLN: setTaxPLNHandler,
+        incomePLN,
+        setIncomePLN: setIncomePLNHandler,
+        isCurrencyDataFetching,
+        setIsCurrencyDataFetching: setIsCurrencyDataFetchingHandler,
+        resetManualInputs,
+        resetCurrencyData,
       }}
     >
       {children}

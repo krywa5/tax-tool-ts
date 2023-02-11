@@ -1,21 +1,19 @@
-import { Income } from "types/Income";
-
+// TODO: zmienić nazwę na coś w tylu TaxCalculator
 export interface Calculator {
-  income: number; // przychód brutto
-  paidTax: number; // zapłacony podatek zagranicą
-  holidayIncome: number; // przychód wakacyjny (tylko w Niemczech)
-  startDate: string; // data rozpoczęcia pracy
-  endDate: string; // data zakończenia pracy
-  paymentDate: string; // data wypłaty
-  incomes: Income[];
+  income: number | undefined; // przychód brutto
+  paidTax: number | undefined; // zapłacony podatek zagranicą
+  holidayIncome: number | undefined; // przychód wakacyjny (tylko w Niemczech)
+  startDate: Date | undefined; // data rozpoczęcia pracy
+  endDate: Date | undefined; // data zakończenia pracy
+  paymentDate: Date | undefined; // data wypłaty
   currencyValue: number; // średni kurs waluty z NBP
-  currencyValueDate: string; // data średniego kursu waluty z NBP
-  currencyTable: string; // tabela waluty
+  currencyValueDate: Date | undefined; // data średniego kursu waluty z NBP
+  currencyTable: string | undefined; // tabela waluty
   dailyDiet: number; // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
   workDays: number; // ilość dni zagranicą
   workMonths: number; // ilość miesięcy zagranicą
   daysInPoland: number; // ilość spędzonych w Polsce podczas pracy zagranicą
-  taxValue: number; // podatek PLN
-  allIncomeValue: number; // przychód PLN
-  isDataFetching: boolean; // flaga gdy pobieranie danych o walucie
+  taxPLN: number; // podatek PLN
+  incomePLN: number; // przychód PLN
+  isCurrencyDataFetching: boolean; // flaga gdy pobieranie danych o walucie
 }

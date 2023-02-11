@@ -10,7 +10,6 @@ export const getExchangeRates = async (
     const response = await fetch(API_URL);
     return await response.json();
   } catch (e) {
-    console.error("Błąd przy pobieraniu danych waluty");
     return console.error(e);
   }
 };

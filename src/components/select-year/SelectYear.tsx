@@ -9,9 +9,8 @@ export const SelectYear: FunctionComponent = () => {
     useContext(AppContext);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const changeHandler = (e: SelectChangeEvent<number>) => {
-    const value = e.target.value;
-    setSelectedYear(Number(value));
+  const changeHandler = (e: SelectChangeEvent) => {
+    setSelectedYear(e.target.value);
   };
 
   if (availableYears.length <= 1) return <Loader />;

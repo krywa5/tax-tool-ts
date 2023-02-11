@@ -86,7 +86,7 @@ export const LoginForm: FunctionComponent = () => {
   };
 
   return (
-    <StyledContainer as="main" maxWidth="sm" disableGutters fixed>
+    <StyledContainer as="main">
       <Paper>
         <StyledAvatar>
           <LockIcon />
@@ -141,12 +141,13 @@ export const LoginForm: FunctionComponent = () => {
 };
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  marginTop: theme.spacing(10),
+  margin: theme.spacing(10, "auto", 0),
   padding: theme.spacing(3),
   backgroundColor: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[20],
   animation: `fadeSlideIn ${theme.transitions.duration.long}ms ${theme.transitions.easing.easeInOut} both`,
+  maxWidth: 600,
 }));
 
 const Paper = styled("div")({

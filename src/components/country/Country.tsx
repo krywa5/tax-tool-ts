@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import {
@@ -15,47 +16,152 @@ import { ManualFields } from "components/manual-fields/ManualFields";
 import { PrintButton } from "components/print-button/PrintButton";
 import { TipsPanel } from "components/tips-panel/TipsPanel";
 import { AppContext } from "contexts/AppContext";
-import { CountryContext } from "contexts/CountryContext";
+import { CountryContext, CountryProvider } from "contexts/CountryContext";
+import {
+  IncomesTableContext,
+  IncomesTableProvider,
+} from "contexts/IncomesTableContext";
+import { useCountryData } from "hooks/useCountryData";
+import { getExchangeRates } from "infrastructure/services/nbp/api/getExchangeRates";
+import { CountryId } from "types/Country";
+import { Income } from "types/Income";
+import {
+  calculateDailyDiet,
+  calculateIncomePLN,
+  calculateTaxPLN,
+  calculateWorkDays,
+} from "utils/calculatorUtils";
+import { daysToMonths, getLastWorkingDay } from "utils/dateUtils";
 
-export const Country: FunctionComponent = () => {
+interface CountryBaseProps {
+  selectedCountry: CountryId;
+}
+
+// eslint-disable-next-line max-statements, max-lines-per-function
+export const CountryForm: FunctionComponent<CountryBaseProps> = ({
+  selectedCountry,
+}) => {
   const firstInput = useRef<HTMLInputElement | null>(null);
 
-  const { setSelectedCountry, selectedYear, setSelectedYear, availableYears } =
+  console.log("Country Render");
+
+  const { selectedYear, setSelectedYear, availableYears } =
     useContext(AppContext);
-  const { calculator, setCalculatorValue, addNewIncome, countryData } =
-    useContext(CountryContext);
   const {
-    currencyTable,
-    currencyValue,
-    currencyValueDate,
-    daysInPoland,
-    endDate,
-    holidayIncome,
     income,
-    incomes,
+    setIncome,
     paidTax,
-    paymentDate,
+    setPaidTax,
+    holidayIncome,
+    setHolidayIncome,
+    setStartDate,
     startDate,
-    taxValue,
-    allIncomeValue,
-  } = calculator;
+    endDate,
+    setEndDate,
+    paymentDate,
+    setPaymentDate,
+    currencyValue,
+    setCurrencyValue,
+    currencyValueDate,
+    setCurrencyValueDate,
+    currencyTable,
+    setCurrencyTable,
+    dailyDiet,
+    setDailyDiet,
+    workDays,
+    setWorkDays,
+    workMonths,
+    setWorkMonths,
+    daysInPoland,
+    setDaysInPoland,
+    taxPLN,
+    setTaxPLN,
+    incomePLN,
+    setIncomePLN,
+    isCurrencyDataFetching,
+    setIsCurrencyDataFetching,
+    resetManualInputs,
+    resetCurrencyData,
+  } = useContext(CountryContext);
+  const { incomes, addNewIncome, resetIncomes } =
+    useContext(IncomesTableContext);
+  const { countryData } = useCountryData(selectedCountry);
+  const {
+    monthlyIncomeCost,
+    currency: countryCurrency,
+    label: countryLabel,
+    diet: countryDiet,
+    dietFactor: countryDietFactor,
+  } = countryData;
+  const isIncomesListVisible = !!incomes.length;
+  const isReadyToAddToIncomeList =
+    incomePLN &&
+    income &&
+    paidTax &&
+    currencyTable &&
+    currencyValueDate &&
+    endDate &&
+    startDate;
 
-  const isIncomesListShown = !!incomes.length;
+  console.log({
+    incomePLN,
+    income,
+    paidTax,
+    currencyTable,
+    currencyValueDate,
+    endDate,
+    startDate,
+  });
 
-  // set selected country
-  useEffect(() => {
-    const { id } = countryData;
-    setSelectedCountry(id); // UserContext
-  }, [countryData, setSelectedCountry]);
+  const addToIncomeList = (): void => {
+    if (!isReadyToAddToIncomeList) {
+      console.error("Income is not ready to be added to income list!");
+      return;
+    }
 
+    const newIncome: Income = {
+      currencyTable,
+      currencyValue,
+      currencyValueDate,
+      daysInPoland,
+      endDate,
+      holidayIncome: holidayIncome ?? 0,
+      id: Date.now().toString(),
+      incomeAbroad: income,
+      incomePLN,
+      paidTax,
+      paymentDate: paymentDate ?? endDate,
+      startDate,
+      taxPLN,
+    };
+
+    addNewIncome(newIncome);
+    clearInputs();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const clearInputs = () => {
+    resetManualInputs();
+
+    if (firstInput.current) {
+      firstInput.current.focus();
+    }
+
+    window.scroll({ top: 300, left: 0, behavior: "smooth" });
+  };
+
+  // TODO: Powydzielać useEffecty do hooków?
+
+  // Handle difference in selected year and end date TODO: handle payment date here too!
   useEffect(() => {
     if (!endDate) return;
 
-    const endDateYear = new Date(endDate).getFullYear();
+    const endDateYear = endDate.getFullYear().toString();
 
     if (endDateYear !== selectedYear) {
       toast.error(
         ({ closeToast }) => {
+          // TODO: Przenieść na zewnątrz tego komponentu
           return (
             <DismissForm
               text="Rok zakończenia pracy różni się od roku rozliczenia!"
@@ -85,57 +191,133 @@ export const Country: FunctionComponent = () => {
     }
   }, [selectedYear, endDate, setSelectedYear, availableYears]);
 
-  const addToIncomeList = (): void => {
-    if (!allIncomeValue) {
+  // Get currency API values if end date or payment date has changed
+  useEffect(() => {
+    const calculationsEndDate = paymentDate ?? endDate;
+    if (calculationsEndDate) {
+      resetCurrencyData();
+      setIsCurrencyDataFetching(true);
+
+      getExchangeRates(getLastWorkingDay(calculationsEndDate), countryCurrency)
+        .then((data) => {
+          const {
+            effectiveDate: currencyValueDate,
+            mid: currencyValueApi,
+            no: currencyTable,
+            // TODO: Naprawić typy
+            // @ts-expect-error
+          } = data.rates[0];
+
+          setCurrencyValue(Number(currencyValueApi.toFixed(4)));
+          setCurrencyValueDate(new Date(currencyValueDate));
+          setCurrencyTable(currencyTable);
+        })
+        .catch((error) => {
+          toast.error(
+            "Wystąpił błąd przy pobieraniu danych waluty. Sprawdź czy masz połączenie z internetem lub czy podane daty są prawidłowe.",
+            {
+              position: "top-center",
+              toastId: "currency-data-error-toast",
+            },
+          );
+          console.error(error);
+        })
+        .finally(() => setIsCurrencyDataFetching(false));
+    }
+  }, [
+    countryCurrency,
+    endDate,
+    paymentDate,
+    resetCurrencyData,
+    setCurrencyTable,
+    setCurrencyValue,
+    setCurrencyValueDate,
+    setIsCurrencyDataFetching,
+  ]);
+  console.log({ paymentDate });
+
+  // set dailyDiet
+  useEffect(() => {
+    setDailyDiet(
+      calculateDailyDiet({ dietFactor: countryDietFactor, diet: countryDiet }),
+    );
+  }, [countryDiet, countryDietFactor, setDailyDiet]);
+
+  // Calculate/recalculate calculator values dependent on start and end dates
+  useEffect(() => {
+    if (startDate && endDate) {
+      setWorkDays(
+        calculateWorkDays({
+          startDate,
+          endDate,
+          daysInPoland,
+        }),
+      );
+      setWorkMonths(daysToMonths(workDays));
+    }
+  }, [
+    startDate,
+    endDate,
+    paymentDate,
+    daysInPoland,
+    workDays,
+    setWorkDays,
+    setWorkMonths,
+  ]);
+
+  // Calculate tax value [PLN]
+  useEffect(() => {
+    if (!paidTax || !currencyValue) return;
+
+    setTaxPLN(calculateTaxPLN({ paidTax, currencyValue }));
+  }, [currencyValue, paidTax, setTaxPLN]);
+
+  // Calculate Income value [PLN]
+  useEffect(() => {
+    if (!income) {
       return;
     }
 
-    const newIncome = {
-      currencyTable,
+    const incomePLN = calculateIncomePLN({
+      income,
       currencyValue,
-      currencyValueDate,
-      daysInPoland,
-      endDate,
+      workMonths,
+      dailyDiet,
+      workDays,
       holidayIncome,
-      id: Date.now().toString(),
-      incomeAbroad: income,
-      incomePLN: allIncomeValue,
-      paidTax,
-      paymentDate: paymentDate || endDate,
-      startDate,
-      taxPLN: taxValue,
-    };
+      monthlyIncomeCost,
+    });
 
-    addNewIncome(newIncome);
-    clearInputs();
-  };
+    setIncomePLN(incomePLN);
+  }, [
+    currencyValue,
+    dailyDiet,
+    holidayIncome,
+    income,
+    monthlyIncomeCost,
+    setIncomePLN,
+    workDays,
+    workMonths,
+  ]);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const clearInputs = () => {
-    setCalculatorValue("income", "");
-    setCalculatorValue("paidTax", "");
-    setCalculatorValue("holidayIncome", "");
-    setCalculatorValue("daysInPoland", "");
-
-    if (firstInput.current) {
-      firstInput.current.focus();
-    }
-    window.scroll({ top: 300, left: 0, behavior: "smooth" });
-  };
-
-  const isFormReadyToRender = !!availableYears.length;
-
-  if (!isFormReadyToRender) return null;
+  useEffect(() => {
+    console.log("odpalam useEffect");
+    resetIncomes();
+  }, [resetIncomes, selectedCountry]);
 
   return (
-    <Wrapper disableGutters maxWidth={false}>
-      <TipsPanel />
-      <StyledManualFields firstInput={firstInput} data-print={false} />
+    <Wrapper maxWidth={false}>
+      <TipsPanel selectedCountry={selectedCountry} />
+      <StyledManualFields
+        selectedCountry={selectedCountry}
+        firstInput={firstInput}
+        data-print={false}
+      />
       <FieldGroupDivider text="Wartości poniżej są obliczane automatycznie" />
-      <StyledAutoFields data-print={false} />
+      <StyledAutoFields selectedCountry={selectedCountry} data-print={false} />
       <SubmitButton
         onClick={addToIncomeList}
-        disabled={!allIncomeValue}
+        disabled={!isReadyToAddToIncomeList}
         fullWidth={true}
         color="secondary"
         variant="contained"
@@ -144,16 +326,16 @@ export const Country: FunctionComponent = () => {
       >
         Dodaj do listy
       </SubmitButton>
-      {isIncomesListShown && (
+      {isIncomesListVisible && (
         <>
           <IncomeListWrapper maxWidth={false}>
             <IncomeListTitle variant="h5" align="center">
               Lista przychodów
               <CountryName fontSize="large" variant="body1">
-                &nbsp;- {countryData.label}
+                &nbsp;- {countryLabel}
               </CountryName>
             </IncomeListTitle>
-            <IncomesTable />
+            <IncomesTable selectedCountry={selectedCountry} />
           </IncomeListWrapper>
           <PrintButton />
         </>
@@ -162,9 +344,29 @@ export const Country: FunctionComponent = () => {
   );
 };
 
+export const Country: FunctionComponent = () => {
+  const { countryId: selectedCountry } = useParams();
+
+  if (!selectedCountry) {
+    throw new Error("No selected country!");
+  }
+
+  return (
+    <CountryProvider>
+      <IncomesTableProvider>
+        <CountryForm selectedCountry={selectedCountry} />
+      </IncomesTableProvider>
+    </CountryProvider>
+  );
+};
+// Comment of sadness
+
 const Wrapper = styled(MuiContainer)({
   width: "100%",
-  paddingTop: "15px",
+
+  "&&": {
+    padding: "15px 0",
+  },
 
   "& .MuiFormControl-root": {
     minWidth: "260px",
