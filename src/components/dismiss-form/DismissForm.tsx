@@ -19,13 +19,13 @@ export const DismissForm: FunctionComponent<DismissFormProps> = ({
 }) => {
   return (
     <Container>
-      <Text variant="body1" align="center">
+      <Typography variant="body1" align="center">
         {text}
-      </Text>
+      </Typography>
       <div>
-        <AcceptButton variant="contained" onClick={acceptHandler}>
+        <Button variant="contained" onClick={acceptHandler}>
           {acceptBtnText}
-        </AcceptButton>
+        </Button>
         <RejectButton onClick={rejectHandler} variant="outlined">
           {rejectBtnText}
         </RejectButton>
@@ -34,23 +34,13 @@ export const DismissForm: FunctionComponent<DismissFormProps> = ({
   );
 };
 
-const Container = styled("div")({
+const Container = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-});
-
-const Text = styled(Typography)({
-  marginBottom: "1.2rem",
-});
-
-const AcceptButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.error.main,
-  backgroundColor: theme.palette.common.white,
+  gap: theme.spacing(2),
 }));
 
 const RejectButton = styled(Button)(({ theme }) => ({
-  marginLeft: "1rem",
-  color: theme.palette.common.white,
-  borderColor: theme.palette.common.white,
+  marginLeft: theme.spacing(2),
 }));

@@ -10,7 +10,6 @@ export const SelectYear: FunctionComponent = () => {
   const { selectedYear, setSelectedYear, availableYears, countriesData } =
     useContext(AppContext);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const changeHandler = (e: SelectChangeEvent) => {
     setSelectedYear(e.target.value);
   };

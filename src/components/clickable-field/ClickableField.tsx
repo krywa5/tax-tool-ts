@@ -6,7 +6,6 @@ import { styled } from "@mui/material";
 export const ClickableField: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const copyToClipboard = (e: any) => {
     const target = e.target as HTMLInputElement;
     let value = target.innerText;

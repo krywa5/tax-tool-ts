@@ -122,12 +122,12 @@ export const AutoFields: FunctionComponent<
       )}
       {countryData.inputs.auto.includes("workDays") && (
         <InputField>
-          <InputLabel label="Ilość dni zagranicą" labelFor="workDays" />
+          <InputLabel label="Ilość dni za granicą" labelFor="workDays" />
           <TextField
             id="workDays"
             type="number"
             variant="outlined"
-            label="Ilość dni zagranicą"
+            label="Ilość dni za granicą"
             value={workDays}
             onChange={(e) => setWorkDays(Number(e.target.value))}
             InputLabelProps={{ shrink: true }}

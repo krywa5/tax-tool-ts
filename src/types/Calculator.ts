@@ -10,7 +10,7 @@ export interface Calculator {
   currencyValueDate: Date | undefined; // data średniego kursu waluty z NBP
   currencyTable: string | undefined; // tabela waluty
   dailyDiet: number; // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
-  workDays: number; // ilość dni zagranicą
+  workDays: number; // ilość dni za granicą
   workMonths: number; // ilość miesięcy zagranicą
   daysInPoland: number; // ilość spędzonych w Polsce podczas pracy zagranicą
   taxPLN: number; // podatek PLN

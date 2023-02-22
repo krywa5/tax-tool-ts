@@ -3,11 +3,13 @@ import React, {
   FunctionComponent,
   PropsWithChildren,
   useCallback,
+  useEffect,
   useState,
 } from "react";
 
 import { Calculator } from "types/Calculator";
-import { isValidDate } from "utils/dateUtils";
+import { calculateTaxPLN, calculateWorkDays } from "utils/calculatorUtils";
+import { daysToMonths, isValidDate } from "utils/dateUtils";
 
 export const CountryContext = createContext<CountryContextType>({
   income: undefined, // przychód brutto
@@ -20,7 +22,7 @@ export const CountryContext = createContext<CountryContextType>({
   currencyValueDate: undefined, // data średniego kursu waluty z NBP
   currencyTable: "", // tabela waluty
   dailyDiet: 0, // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
-  workDays: 0, // ilość dni zagranicą
+  workDays: 0, // ilość dni za granicą
   workMonths: 0, // ilość miesięcy zagranicą
   daysInPoland: 0, // ilość spędzonych w Polsce podczas pracy zagranicą
   taxPLN: 0, // podatek PLN
@@ -71,7 +73,7 @@ interface CountryContextType extends Calculator, CalculatorHandlers {
 }
 
 // TODO: Zmienić nazwę na coś w stylu TaxCalculator
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line max-statements,max-lines-per-function
 export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
@@ -178,6 +180,35 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
     setCurrencyValueDate(undefined);
     setCurrencyTable(undefined);
   }, []);
+
+  // Calculate/recalculate calculator values dependent on start and end dates
+  useEffect(() => {
+    if (startDate && endDate) {
+      setWorkDays(
+        calculateWorkDays({
+          startDate,
+          endDate,
+          daysInPoland,
+        }),
+      );
+      setWorkMonths(daysToMonths(workDays));
+    }
+  }, [
+    startDate,
+    endDate,
+    paymentDate,
+    daysInPoland,
+    workDays,
+    setWorkDays,
+    setWorkMonths,
+  ]);
+
+  // Calculate tax value [PLN]
+  useEffect(() => {
+    if (!paidTax || !currencyValue) return;
+
+    setTaxPLN(calculateTaxPLN({ paidTax, currencyValue }));
+  }, [currencyValue, paidTax, setTaxPLN]);
 
   return (
     <CountryContext.Provider
