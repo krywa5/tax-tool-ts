@@ -41,12 +41,15 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
     incomePLN: 0,
   };
 
-  const countersKeys = {
-    isTaxAbroad: manualFields.includes("paidTax"),
-    isIncomeAbroad: manualFields.includes("income"),
-    isTaxPLN: autoFields.includes("taxPLN"),
-    isIncomePLN: autoFields.includes("incomePLN"),
-  };
+  const hasStartDate = manualFields.includes("startDate");
+  const hasEndDate = manualFields.includes("endDate");
+  const hasPaymentDate = manualFields.includes("paymentDate");
+  const hasDaysInPoland = manualFields.includes("daysInPoland");
+  const hasPaidTax = manualFields.includes("paidTax");
+  const hasHolidayIncome = manualFields.includes("holidayIncome");
+  const hasIncome = manualFields.includes("income");
+  const hasTaxPLN = autoFields.includes("taxPLN");
+  const hasIncomePLN = autoFields.includes("incomePLN");
 
   return (
     <TableContainer>
@@ -54,35 +57,21 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
         <TableHead>
           <TableRow>
             <TableCell>Lp.</TableCell>
-            {manualFields.includes("startDate") && (
-              <TableCell>Data rozpoczęcia</TableCell>
-            )}
-            {manualFields.includes("endDate") && (
-              <TableCell>Data zakończenia</TableCell>
-            )}
-            {manualFields.includes("paymentDate") && (
-              <TableCell>Data wypłaty</TableCell>
-            )}
-            {manualFields.includes("daysInPoland") && (
-              <TableCell>Dni w Polsce</TableCell>
-            )}
+            {hasStartDate && <TableCell>Data rozpoczęcia</TableCell>}
+            {hasEndDate && <TableCell>Data zakończenia</TableCell>}
+            {hasPaymentDate && <TableCell>Data wypłaty</TableCell>}
+            {hasDaysInPoland && <TableCell>Dni w Polsce</TableCell>}
             <TableCell>Tabela</TableCell>
             <TableCell>Kurs waluty</TableCell>
-            {manualFields.includes("paidTax") && (
+            {hasPaidTax && (
               <TableCell>Podatek {countryData.currency}</TableCell>
             )}
-            {manualFields.includes("holidayIncome") && (
-              <TableCell>Przychód wakacyjny</TableCell>
-            )}
-            {manualFields.includes("income") && (
+            {hasHolidayIncome && <TableCell>Przychód wakacyjny</TableCell>}
+            {hasIncome && (
               <TableCell>Przychód {countryData.currency}</TableCell>
             )}
-            {autoFields.includes("taxPLN") && (
-              <TableCell>Podatek PLN</TableCell>
-            )}
-            {autoFields.includes("incomePLN") && (
-              <TableCell>Przychód PLN</TableCell>
-            )}
+            {hasTaxPLN && <TableCell>Podatek PLN</TableCell>}
+            {hasIncomePLN && <TableCell>Przychód PLN</TableCell>}
             <PrintColumnCell data-print={false}></PrintColumnCell>
           </TableRow>
         </TableHead>
@@ -112,37 +101,31 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
             return (
               <TableRow key={id}>
                 <TableCell>{index + 1}.</TableCell>
-                {manualFields.includes("startDate") && (
+                {hasStartDate && (
                   <TableCell>{startDate.toLocaleDateString()}</TableCell>
                 )}
-                {manualFields.includes("endDate") && (
+                {hasEndDate && (
                   <TableCell>{endDate.toLocaleDateString()}</TableCell>
                 )}
-                {manualFields.includes("paymentDate") && (
+                {hasPaymentDate && (
                   <TableCell>
                     {(paymentDate ?? endDate).toLocaleDateString()}
                   </TableCell>
                 )}
-                {manualFields.includes("daysInPoland") && (
-                  <TableCell>{daysInPoland}</TableCell>
-                )}
+                {hasDaysInPoland && <TableCell>{daysInPoland}</TableCell>}
                 <TableCell>{currencyTable}</TableCell>
                 <TableCell>{numToStr(currencyValue, 4)}</TableCell>
-                {manualFields.includes("paidTax") && (
-                  <TableCell>{numToStr(paidTax)}</TableCell>
-                )}
-                {manualFields.includes("holidayIncome") && (
+                {hasHolidayIncome && (
                   <TableCell>{numToStr(holidayIncome)}</TableCell>
                 )}
-                {manualFields.includes("income") && (
-                  <TableCell>{numToStr(incomeAbroad)}</TableCell>
-                )}
-                {autoFields.includes("taxPLN") && (
+                {hasPaidTax && <TableCell>{numToStr(paidTax)}</TableCell>}
+                {hasIncome && <TableCell>{numToStr(incomeAbroad)}</TableCell>}
+                {hasTaxPLN && (
                   <TableCell>
                     <ClickableField>{numToStr(taxPLN)}</ClickableField>
                   </TableCell>
                 )}
-                {autoFields.includes("incomePLN") && (
+                {hasIncomePLN && (
                   <TableCell>
                     <ClickableField>{numToStr(incomePLN)}</ClickableField>
                   </TableCell>
@@ -166,8 +149,8 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
           {
             <OverallCounters
               values={overallValues}
-              country={countryData.id}
-              countersKeys={countersKeys}
+              manualFields={manualFields}
+              autoFields={autoFields}
             />
           }
         </TableFooter>
@@ -176,7 +159,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
   );
 };
 
-const StyledTable = styled(Table)(({ theme }) => ({
+const StyledTable = styled(Table)({
   "& thead th": {
     fontWeight: 600,
     fontSize: "1rem",
@@ -196,7 +179,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
       padding: "8px 4px",
     },
   },
-}));
+});
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   color: theme.palette.error.dark,

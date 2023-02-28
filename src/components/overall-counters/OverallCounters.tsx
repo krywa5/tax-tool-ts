@@ -4,6 +4,8 @@ import { styled, TableCell, TableRow } from "@mui/material";
 import { ClickableField } from "components/clickable-field/ClickableField";
 import { numToStr } from "utils/numberUtils";
 
+const COLUMNS_FOR_COUNTERS_BASE = 3; // LP, Tabela, Kurs waluty
+
 interface OverallCounterValues {
   taxAbroad: number;
   incomeAbroad: number;
@@ -11,49 +13,52 @@ interface OverallCounterValues {
   incomePLN: number;
 }
 
-interface OverallCountersKeys {
-  isTaxAbroad: boolean;
-  isIncomeAbroad: boolean;
-  isTaxPLN: boolean;
-  isIncomePLN: boolean;
-}
-
 interface OverallCountersProps {
   values: OverallCounterValues;
-  country: string;
-  countersKeys: OverallCountersKeys;
+  autoFields: string[];
+  manualFields: string[];
 }
 
 export const OverallCounters: FunctionComponent<OverallCountersProps> = ({
   values,
-  country,
-  countersKeys,
+  autoFields,
+  manualFields,
 }) => {
   const { taxAbroad, incomeAbroad, taxPLN, incomePLN } = values;
-  const { isTaxAbroad, isIncomeAbroad, isTaxPLN, isIncomePLN } = countersKeys;
+  const hasTaxAbroad = manualFields.includes("paidTax");
+  const hasIncomeAbroad = manualFields.includes("income");
+  const hasTaxPLN = autoFields.includes("taxPLN");
+  const hasIncomePLN = autoFields.includes("incomePLN");
 
-  let numberOfEmptyCols = 0;
+  const dataCols = [
+    ...manualFields,
+    ...autoFields.filter(
+      (field) =>
+        ![
+          "allAllowanceValue",
+          "dailyDiet",
+          "allowanceMonths",
+          "currencyValue",
+          "dayAllowanceValue",
+          "workDays",
+        ].includes(field),
+    ),
+  ];
 
-  // TODO: zrobić tę część w bardziej programistyczny sposób
-  switch (country) {
-    case "netherlands":
-      numberOfEmptyCols = 5;
-      break;
-    case "belgium":
-      numberOfEmptyCols = 6;
-      break;
-    case "france":
-      numberOfEmptyCols = 6;
-      break;
-    case "germany":
-      numberOfEmptyCols = 6;
-      break;
-    default:
-      numberOfEmptyCols = 6;
-      break;
-  }
+  const numberOfOverallCountersColumns = [
+    true,
+    hasTaxAbroad,
+    hasIncomeAbroad,
+    hasTaxPLN,
+    hasIncomePLN,
+  ].filter((col) => col).length;
 
-  const emptyCols = (() => {
+  const numberOfEmptyCols =
+    dataCols.length +
+    COLUMNS_FOR_COUNTERS_BASE -
+    numberOfOverallCountersColumns;
+
+  const emptyColsComponents = (() => {
     const output = [];
     for (let index = 0; index < numberOfEmptyCols; index++) {
       output.push(<EmptyTableCell key={index}></EmptyTableCell>);
@@ -63,24 +68,24 @@ export const OverallCounters: FunctionComponent<OverallCountersProps> = ({
 
   return (
     <TableRow>
-      {emptyCols}
+      {emptyColsComponents}
       <OverallTableCell isClickable={false}>Łącznie</OverallTableCell>
-      {isTaxAbroad && (
+      {hasTaxAbroad && (
         <OverallTableCell>
           <ClickableField>{numToStr(taxAbroad)}</ClickableField>
         </OverallTableCell>
       )}
-      {isIncomeAbroad && (
+      {hasIncomeAbroad && (
         <OverallTableCell>
           <ClickableField>{numToStr(incomeAbroad)}</ClickableField>
         </OverallTableCell>
       )}
-      {isTaxPLN && (
+      {hasTaxPLN && (
         <OverallTableCell>
           <ClickableField>{numToStr(taxPLN)}</ClickableField>
         </OverallTableCell>
       )}
-      {isIncomePLN && (
+      {hasIncomePLN && (
         <OverallTableCell>
           <ClickableField>{numToStr(incomePLN)}</ClickableField>
         </OverallTableCell>

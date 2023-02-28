@@ -44,7 +44,6 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
   const isReadyToAddToIncomeList =
     incomePLN &&
     income &&
-    paidTax &&
     currencyTable &&
     currencyValueDate &&
     endDate &&
@@ -52,8 +51,7 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
 
   const submitHandler = () => {
     if (!isReadyToAddToIncomeList) {
-      console.error("Income is not ready to be added to income list!");
-      return;
+      return console.error("Income is not ready to be added to income list!");
     }
 
     const newIncome: Income = {
@@ -66,7 +64,7 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
       id: Date.now().toString(),
       incomeAbroad: income,
       incomePLN,
-      paidTax,
+      paidTax: paidTax ?? 0,
       paymentDate: paymentDate ?? endDate,
       startDate,
       taxPLN,
