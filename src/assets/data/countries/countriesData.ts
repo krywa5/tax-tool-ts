@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { AvailableYear } from "types/AvailableYear";
 import { Country } from "types/Country";
 
@@ -513,21 +514,13 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         auto: [
           "currencyValue",
           "allowanceMonths",
-          "dayAllowanceValue",
-          "workDays",
           "dailyDiet",
-          "incomePLN",
+          "workDays",
           "allAllowanceValue",
           "taxPLN",
+          "incomePLN",
         ],
-        manual: [
-          "income",
-          "holidayIncome",
-          "startDate",
-          "endDate",
-          "daysInPoland",
-          "paidTax",
-        ],
+        manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
       },
       intl: {
         holidayIncome: "Feriepenger",
@@ -730,21 +723,13 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         auto: [
           "currencyValue",
           "allowanceMonths",
-          "dayAllowanceValue",
-          "workDays",
           "dailyDiet",
-          "incomePLN",
+          "workDays",
           "allAllowanceValue",
           "taxPLN",
+          "incomePLN",
         ],
-        manual: [
-          "income",
-          "holidayIncome",
-          "startDate",
-          "endDate",
-          "daysInPoland",
-          "paidTax",
-        ],
+        manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
       },
       intl: {
         holidayIncome: "Feriepenger",
