@@ -39,5 +39,8 @@ onAuthStateChanged(firebaseAuth, (user) => {
   }
 });
 
-export const isFirebaseError = (error: any): error is FirebaseError =>
-  "code" in error && "message" in error;
+export const isFirebaseError = (error: unknown): error is FirebaseError => {
+  if (typeof error !== "object" || error === null) return false;
+
+  return "code" in error && "message" in error;
+};

@@ -8,7 +8,14 @@ import { firebaseLogout } from "infrastructure/services/firebase/actions/firebas
 import { isFirebaseError } from "infrastructure/services/firebase/firebase.service";
 import { PATHS } from "routing/paths";
 
-export function useAuth() {
+interface AuthViewModel {
+  signIn: (email: string, password: string) => void;
+  isSignInPending: boolean;
+  signOut: () => void;
+  isSignOutPending: boolean;
+}
+
+export function useAuth(): AuthViewModel {
   const [isSignInPending, setIsSignInPending] = useState(false);
   const [isSignOutPending, setIsSignOutPending] = useState(false);
   const { setUser } = useContext(AppContext);

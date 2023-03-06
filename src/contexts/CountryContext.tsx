@@ -78,8 +78,8 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   // TODO: sprawdzić czy zamiast undefined można dać null
-  const [income, setIncome] = useState<number | undefined>(5000);
-  const [paidTax, setPaidTax] = useState<number | undefined>(500);
+  const [income, setIncome] = useState<number | undefined>(undefined);
+  const [paidTax, setPaidTax] = useState<number | undefined>(undefined);
   const [holidayIncome, setHolidayIncome] = useState<number | undefined>(
     undefined,
   );
