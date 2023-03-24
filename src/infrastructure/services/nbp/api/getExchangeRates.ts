@@ -4,7 +4,7 @@ export const getExchangeRates = async (
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 ): Promise<Response | void> => {
   const currencyFormatted = currency.toLowerCase();
-  const API_URL = `http://api.nbp.pl/api/exchangerates/rates/a/${currencyFormatted}/${currencyValueDate}/?format=json`;
+  const API_URL = `https://api.nbp.pl/api/exchangerates/rates/a/${currencyFormatted}/${currencyValueDate}/?format=json`;
 
   try {
     const response = await fetch(API_URL);

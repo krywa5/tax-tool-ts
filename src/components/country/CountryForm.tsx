@@ -87,7 +87,8 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
   useEffect(() => {
     resetIncomes();
     resetManualInputs();
-  }, [resetIncomes, selectedCountry]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCountry]);
 
   return (
     <CurrencyDataFetcher selectedCountry={selectedCountry}>
