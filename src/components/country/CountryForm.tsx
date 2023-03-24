@@ -86,6 +86,7 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
 
   useEffect(() => {
     resetIncomes();
+    resetManualInputs();
   }, [resetIncomes, selectedCountry]);
 
   return (

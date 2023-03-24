@@ -18,7 +18,7 @@ import { OverallCounters } from "components/overall-counters/OverallCounters";
 import { IncomesTableContext } from "contexts/IncomesTableContext";
 import { useCountryData } from "hooks/useCountryData";
 import { CountryId } from "types/Country";
-import { numToStr } from "utils/numberUtils";
+import { numberToLocaleString } from "utils/numberUtils";
 
 interface IncomesTableProps {
   selectedCountry: CountryId;
@@ -114,20 +114,28 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
                 )}
                 {hasDaysInPoland && <TableCell>{daysInPoland}</TableCell>}
                 <TableCell>{currencyTable}</TableCell>
-                <TableCell>{numToStr(currencyValue, 4)}</TableCell>
+                <TableCell>{numberToLocaleString(currencyValue, 4)}</TableCell>
                 {hasHolidayIncome && (
-                  <TableCell>{numToStr(holidayIncome)}</TableCell>
+                  <TableCell>{numberToLocaleString(holidayIncome)}</TableCell>
                 )}
-                {hasPaidTax && <TableCell>{numToStr(paidTax)}</TableCell>}
-                {hasIncome && <TableCell>{numToStr(incomeAbroad)}</TableCell>}
+                {hasPaidTax && (
+                  <TableCell>{numberToLocaleString(paidTax)}</TableCell>
+                )}
+                {hasIncome && (
+                  <TableCell>{numberToLocaleString(incomeAbroad)}</TableCell>
+                )}
                 {hasTaxPLN && (
                   <TableCell>
-                    <ClickableField>{numToStr(taxPLN)}</ClickableField>
+                    <ClickableField>
+                      {numberToLocaleString(taxPLN)}
+                    </ClickableField>
                   </TableCell>
                 )}
                 {hasIncomePLN && (
                   <TableCell>
-                    <ClickableField>{numToStr(incomePLN)}</ClickableField>
+                    <ClickableField>
+                      {numberToLocaleString(incomePLN)}
+                    </ClickableField>
                   </TableCell>
                 )}
                 <PrintColumnCell data-print={false}>

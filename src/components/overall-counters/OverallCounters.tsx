@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 
 import { styled, TableCell, TableRow } from "@mui/material";
 import { ClickableField } from "components/clickable-field/ClickableField";
-import { numToStr } from "utils/numberUtils";
+import { numberToLocaleString } from "utils/numberUtils";
 
 const COLUMNS_FOR_COUNTERS_BASE = 3; // LP, Tabela, Kurs waluty
 
@@ -72,22 +72,22 @@ export const OverallCounters: FunctionComponent<OverallCountersProps> = ({
       <OverallTableCell isClickable={false}>Łącznie</OverallTableCell>
       {hasTaxAbroad && (
         <OverallTableCell>
-          <ClickableField>{numToStr(taxAbroad)}</ClickableField>
+          <ClickableField>{numberToLocaleString(taxAbroad)}</ClickableField>
         </OverallTableCell>
       )}
       {hasIncomeAbroad && (
         <OverallTableCell>
-          <ClickableField>{numToStr(incomeAbroad)}</ClickableField>
+          <ClickableField>{numberToLocaleString(incomeAbroad)}</ClickableField>
         </OverallTableCell>
       )}
       {hasTaxPLN && (
         <OverallTableCell>
-          <ClickableField>{numToStr(taxPLN)}</ClickableField>
+          <ClickableField>{numberToLocaleString(taxPLN)}</ClickableField>
         </OverallTableCell>
       )}
       {hasIncomePLN && (
         <OverallTableCell>
-          <ClickableField>{numToStr(incomePLN)}</ClickableField>
+          <ClickableField>{numberToLocaleString(incomePLN)}</ClickableField>
         </OverallTableCell>
       )}
       <EmptyTableCell data-print={false}></EmptyTableCell>

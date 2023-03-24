@@ -7,7 +7,7 @@ import { CountryContext } from "contexts/CountryContext";
 import { useCountryData } from "hooks/useCountryData";
 import { Printable, Stylable } from "types/ComponentTypes";
 import { CountryId } from "types/Country";
-import { strToNum } from "utils/stringUtils";
+import { stringNumberToNumber } from "utils/stringUtils";
 
 interface ManualFieldsProps extends Stylable, Printable {
   firstInput: Ref<HTMLInputElement>;
@@ -55,7 +55,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             variant="outlined"
             value={income ?? ""}
             autoFocus
-            onChange={(e) => setIncome(strToNum(e.target.value))}
+            onChange={(e) => setIncome(stringNumberToNumber(e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -84,7 +84,9 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             type="number"
             variant="outlined"
             value={holidayIncome ?? ""}
-            onChange={(e) => setHolidayIncome(strToNum(e.target.value))}
+            onChange={(e) =>
+              setHolidayIncome(stringNumberToNumber(e.target.value))
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -112,7 +114,7 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
             type="number"
             variant="outlined"
             value={paidTax ?? ""}
-            onChange={(e) => setPaidTax(strToNum(e.target.value))}
+            onChange={(e) => setPaidTax(stringNumberToNumber(e.target.value))}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

@@ -28,6 +28,7 @@ export const CountryFlags: FunctionComponent = () => {
 const StyledGrid = styled(Grid)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, 80px)",
+  width: "100%",
   maxWidth: "59%",
   padding: theme.spacing(0, 4),
   gap: theme.spacing(3),
