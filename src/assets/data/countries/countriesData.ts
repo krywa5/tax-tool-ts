@@ -597,8 +597,8 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       label: "Holandia",
       monthlyIncomeCost: 250,
       subLabels: {
-        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 67", "PIT-ZG: pole 8 = 0"],
-        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 287",
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
       },
       tips: [
         "gdy L20/L02/L07 (zwolnienie lekarskie) -> zredukować wartość diet do 0 (ustawić stawkę 0) oraz ustawić 0 miesięcy zagranicą.",
@@ -638,8 +638,8 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       label: "Belgia",
       monthlyIncomeCost: 250,
       subLabels: {
-        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 67", "PIT-ZG: pole 8 = 0"],
-        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 287",
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
       },
     },
     {
@@ -740,16 +740,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       },
       intl: {
         holidayIncome: "Feriepenger",
-        income: "Feriengegrunnlag + Opptjente feriepenger",
+        income: "Feriengegrunnlag + Opptjente feriepenger, Lønn mv (8,0%)",
         paidTax: "Skattetrekk, Forskuddstrekk",
       },
       label: "Norwegia",
       monthlyIncomeCost: 250,
       subLabels: {
-        incomePLN: [
-          "PIT-ZG: pole 8",
-          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 254",
-        ],
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
       },
     },
     {
