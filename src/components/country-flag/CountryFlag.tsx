@@ -8,6 +8,7 @@ import germanyFlag from "assets/images/flags/germany.jpg";
 import netherlandsFlag from "assets/images/flags/netherlands.jpg";
 import noFlag from "assets/images/flags/no-flag.jpg";
 import norwayFlag from "assets/images/flags/norway.png";
+import swedenFlag from "assets/images/flags/sweden.png";
 import switzerlandFlag from "assets/images/flags/switzerland.png";
 import { PATHS } from "routing/paths";
 import { CountryId } from "types/Country";
@@ -36,6 +37,8 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
         return norwayFlag;
       case "switzerland":
         return switzerlandFlag;
+      case "sweden":
+        return swedenFlag;
       default:
         return noFlag;
     }

@@ -674,7 +674,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       subLabels: {
         incomePLN: [
           "PIT-ZG: pole 8",
-          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 281",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
         ],
       },
     },
@@ -710,7 +710,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       subLabels: {
         incomePLN: [
           "PIT-ZG: pole 8",
-          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 281",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
         ],
       },
     },
@@ -784,7 +784,42 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       subLabels: {
         incomePLN: [
           "PIT-ZG: pole 8",
-          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 281",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
+    {
+      currency: "SEK",
+      diet: 510,
+      dietFactor: 0.3,
+      id: "sweden",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+          "paymentDate",
+        ],
+      },
+      intl: {
+        income: "Gross income",
+      },
+      label: "Szwecja",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
         ],
       },
     },
