@@ -27,23 +27,12 @@ const printStyles = {
       display: "none !important",
     },
   },
-  // TODO: Sprawdzić czy to jest w ogóle potrzebne
-  ".only-print": {
-    display: "none !important",
-    "@media print": {
-      display: "inline-block !important",
-    },
-  },
 };
 
 export const GlobalStyles: FunctionComponent = () => {
   const globalStyles = {
     ...keyFrames,
     ...printStyles,
-    // TODO: Przenieść te style do tooltipa
-    ".MuiTooltip-tooltip": {
-      fontSize: "1rem",
-    },
   };
   return <MuiGlobalStyles styles={globalStyles} />;
 };

@@ -26,13 +26,6 @@ export const customTheme: ThemeOptions = {
       default: "#eee",
     },
   },
-  typography: {
-    // TODO: Sprawdzić czy te h4 jest potrzebne
-    h4: {
-      fontSize: "1.7rem",
-      marginBottom: ".5rem",
-    },
-  },
   transitions: {
     duration: {
       medium: 500,

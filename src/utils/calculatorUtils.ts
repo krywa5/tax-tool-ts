@@ -2,7 +2,7 @@ import { daysBetweenDates } from "utils/dateUtils";
 
 interface calculateIncomePLNProps {
   income: number;
-  holidayIncome?: number;
+  holidayIncome: number | null;
   workDays: number;
   dailyDiet: number;
   currencyValue: number;

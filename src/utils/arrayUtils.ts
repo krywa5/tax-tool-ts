@@ -1,4 +1,3 @@
-// TODO: dodać 3ci parametr do ASC i DESC
 export const sortByKey = <T>(arrayToSort: T[], sortKey: keyof T): T[] => {
   return arrayToSort.sort((a, b) => {
     const propertyA = a[sortKey];

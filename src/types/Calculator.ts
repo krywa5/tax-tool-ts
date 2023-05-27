@@ -1,14 +1,13 @@
-// TODO: zmienić nazwę na coś w tylu TaxCalculator
 export interface Calculator {
-  income: number | undefined; // przychód brutto
-  paidTax: number | undefined; // zapłacony podatek zagranicą
-  holidayIncome: number | undefined; // przychód wakacyjny (tylko w Niemczech)
-  startDate: Date | undefined; // data rozpoczęcia pracy
-  endDate: Date | undefined; // data zakończenia pracy
-  paymentDate: Date | undefined; // data wypłaty
+  income: number | null; // przychód brutto
+  paidTax: number | null; // zapłacony podatek zagranicą
+  holidayIncome: number | null; // przychód wakacyjny (tylko w Niemczech)
+  startDate: Date | null; // data rozpoczęcia pracy
+  endDate: Date | null; // data zakończenia pracy
+  paymentDate: Date | null; // data wypłaty
   currencyValue: number; // średni kurs waluty z NBP
-  currencyValueDate: Date | undefined; // data średniego kursu waluty z NBP
-  currencyTable: string | undefined; // tabela waluty
+  currencyValueDate: Date | null; // data średniego kursu waluty z NBP
+  currencyTable: string | null; // tabela waluty
   dailyDiet: number; // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
   workDays: number; // ilość dni za granicą
   workMonths: number; // ilość miesięcy zagranicą

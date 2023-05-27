@@ -14,9 +14,9 @@ interface AutoFieldsProps {
   selectedCountry: CountryId;
 }
 
-// TODO: Rozbić
 export const AutoFields: FunctionComponent<
   AutoFieldsProps & Stylable & Printable
+  // eslint-disable-next-line max-lines-per-function
 > = ({ className, "data-print": dataPrint, selectedCountry }) => {
   const {
     currencyValueDate,

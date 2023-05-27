@@ -12,14 +12,14 @@ import { calculateTaxPLN, calculateWorkDays } from "utils/calculatorUtils";
 import { daysToMonths, isValidDate } from "utils/dateUtils";
 
 export const CountryContext = createContext<CountryContextType>({
-  income: undefined, // przychód brutto
-  paidTax: undefined, // zapłacony podatek zagranicą
-  holidayIncome: undefined, // przychód wakacyjny (tylko w Niemczech)
-  startDate: undefined, // data rozpoczęcia pracy
-  endDate: undefined, // data zakończenia pracy
-  paymentDate: undefined, // data wypłaty
+  income: null, // przychód brutto
+  paidTax: null, // zapłacony podatek zagranicą
+  holidayIncome: null, // przychód wakacyjny (tylko w Niemczech)
+  startDate: null, // data rozpoczęcia pracy
+  endDate: null, // data zakończenia pracy
+  paymentDate: null, // data wypłaty
   currencyValue: 0, // średni kurs waluty z NBP
-  currencyValueDate: undefined, // data średniego kursu waluty z NBP
+  currencyValueDate: null, // data średniego kursu waluty z NBP
   currencyTable: "", // tabela waluty
   dailyDiet: 0, // dzienna dieta wyznaczona na podstawie tabeli diet zagranicznych
   workDays: 0, // ilość dni za granicą
@@ -71,28 +71,19 @@ interface CountryContextType extends Calculator, CalculatorHandlers {
   resetManualInputs: () => void;
   resetCurrencyData: () => void;
 }
-
-// TODO: Zmienić nazwę na coś w stylu TaxCalculator
 // eslint-disable-next-line max-statements,max-lines-per-function
 export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  // TODO: sprawdzić czy zamiast undefined można dać null
-  const [income, setIncome] = useState<number | undefined>(undefined);
-  const [paidTax, setPaidTax] = useState<number | undefined>(undefined);
-  const [holidayIncome, setHolidayIncome] = useState<number | undefined>(
-    undefined,
-  );
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
-  const [paymentDate, setPaymentDate] = useState<Date | undefined>(undefined);
+  const [income, setIncome] = useState<number | null>(null);
+  const [paidTax, setPaidTax] = useState<number | null>(null);
+  const [holidayIncome, setHolidayIncome] = useState<number | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [paymentDate, setPaymentDate] = useState<Date | null>(null);
   const [currencyValue, setCurrencyValue] = useState(0);
-  const [currencyValueDate, setCurrencyValueDate] = useState<Date | undefined>(
-    undefined,
-  );
-  const [currencyTable, setCurrencyTable] = useState<string | undefined>(
-    undefined,
-  );
+  const [currencyValueDate, setCurrencyValueDate] = useState<Date | null>(null);
+  const [currencyTable, setCurrencyTable] = useState<string | null>(null);
   const [dailyDiet, setDailyDiet] = useState(0);
   const [workDays, setWorkDays] = useState(0);
   const [workMonths, setWorkMonths] = useState(0);
@@ -170,15 +161,15 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
     [],
   );
   const resetManualInputs = useCallback(() => {
-    setIncome(undefined);
-    setPaidTax(undefined);
-    setHolidayIncome(undefined);
+    setIncome(null);
+    setPaidTax(null);
+    setHolidayIncome(null);
     setDaysInPoland(0);
   }, []);
   const resetCurrencyData = useCallback(() => {
     setCurrencyValue(0);
-    setCurrencyValueDate(undefined);
-    setCurrencyTable(undefined);
+    setCurrencyValueDate(null);
+    setCurrencyTable(null);
   }, []);
 
   // Calculate/recalculate calculator values dependent on start and end dates

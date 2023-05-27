@@ -1,13 +1,11 @@
 import React, { FunctionComponent } from "react";
 
 import { styled, Typography } from "@mui/material";
-import { createUUID } from "utils/stringUtils";
 
 export interface InputLabelProps {
   label: string;
   labelFor: string;
-  subLabels?: string[] | string; // TODO: zmienić to na obiekt z id i wykorzsytać to id jako key, żeby nie korzystać z
-  // uuida
+  subLabels?: string[] | string;
 }
 
 export const InputLabel: FunctionComponent<InputLabelProps> = ({
@@ -20,9 +18,10 @@ export const InputLabel: FunctionComponent<InputLabelProps> = ({
   return (
     <LabelWrapper htmlFor={labelFor}>
       <Typography variant="h5">{label}</Typography>
-      {subLabels?.map((subLabel) => {
+      {subLabels?.map((subLabel, index) => {
         return (
-          <SubLabel key={createUUID()} variant="body2">
+          // index is used as a key because there is no dynamic changes to sublabels list
+          <SubLabel key={index} variant="body2">
             {subLabel}
           </SubLabel>
         );

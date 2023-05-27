@@ -46,7 +46,6 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
 
   return (
     <Tooltip title={countryLabel} placement="bottom">
-      {/* TODO: data-selected raczej nie potrzebne bo Navlink i active */}
       <FlagListItem data-selected={country === selectedCountry}>
         <NavLink
           to={

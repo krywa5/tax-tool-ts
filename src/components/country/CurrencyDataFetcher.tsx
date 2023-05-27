@@ -39,12 +39,12 @@ export const CurrencyDataFetcher: FunctionComponent<
 
       getExchangeRates(getLastWorkingDay(calculationsEndDate), countryCurrency)
         .then((data) => {
+          if (!data) return;
+
           const {
             effectiveDate: currencyValueDate,
             mid: currencyValueApi,
             no: currencyTable,
-            // TODO: Naprawić typy
-            // @ts-expect-error
           } = data.rates[0];
 
           setCurrencyValue(Number(currencyValueApi.toFixed(4)));

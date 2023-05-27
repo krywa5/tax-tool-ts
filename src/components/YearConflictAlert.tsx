@@ -12,7 +12,7 @@ import { StateSetter } from "types/AppTypes";
 import { AvailableYear } from "types/AvailableYear";
 
 export interface YearConflictAlertListenerProps {
-  endDate?: Date;
+  endDate: Date | null;
 }
 
 export const YearConflictAlertListener: FunctionComponent<

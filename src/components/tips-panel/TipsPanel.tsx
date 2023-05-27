@@ -53,8 +53,7 @@ export const TipsPanel: FunctionComponent<TipsPanelProps> = ({
                 Pamiętaj
               </Title>
               <StyledList>
-                {/*  TODO: Usunąć typowanie explicite */}
-                {countryData?.tips?.map((tip: string, i: number) => (
+                {countryData?.tips?.map((tip, i) => (
                   <StyledListItem key={i}>
                     <Typography variant="body1">{tip}</Typography>
                   </StyledListItem>
