@@ -67,14 +67,7 @@ export const getLastWorkingDay = (date: Date): string => {
   return customToISOString(dateMinusDay);
 };
 
-// TODO: Spróbować zmienić typ ze stringa na Date
-export const toPolishDateFormat = (date: string): string => {
-  // oldData is expected to be in yyyy-mm-dd
-  return date.split("-").reverse().join(".");
-};
-
-// TODO: zmienić typy date, zmienić nazwę na calculateDateDifferenceInDays, usunąć ts-expect-error
-export const dateDiff = (
+export const daysBetweenDates = (
   startDate: Date,
   endDate: Date,
   daysToSubtract = 0,
@@ -87,7 +80,6 @@ export const dateDiff = (
   ); // +1 because we include end date
 };
 
-// TODO: zmienić nazwę na convertDaysToMonths
 export const daysToMonths = (days: number): number => {
   return Math.max(Math.round(days / 30), 1); // 1 month is the minimum value
 };

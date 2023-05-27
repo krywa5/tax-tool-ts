@@ -1,4 +1,4 @@
-import { dateDiff } from "utils/dateUtils";
+import { daysBetweenDates } from "utils/dateUtils";
 
 interface calculateIncomePLNProps {
   income: number;
@@ -61,4 +61,4 @@ export const calculateWorkDays = ({
   endDate,
   daysInPoland,
 }: CalculateWorkDaysProps): number =>
-  dateDiff(startDate, endDate, daysInPoland);
+  daysBetweenDates(startDate, endDate, daysInPoland);
