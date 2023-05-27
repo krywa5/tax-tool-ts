@@ -28,6 +28,15 @@ const irregularDaysOffInPoland = [
   "2022-06-16", // Boże Ciało
 ];
 
+// I couldn't make use of toISOString() because when timezone changes it returns wrong date (check getLastWorkingDay("2022-10-31"))
+const customToISOString = (date: Date): string => {
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 <= 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+  const day = date.getDate() <= 9 ? `0${date.getDate()}` : date.getDate();
+  return `${year}-${month}-${day}`;
+};
+
 const isDayOffInPoland = (date: Date): boolean => {
   const dayIndex = date.getDay();
   const dateISOString = date.toISOString();
@@ -42,24 +51,20 @@ const isDayOffInPoland = (date: Date): boolean => {
   return isWeekend || isDayOff;
 };
 
-// TODO: Spróbować wykorzystać rekurencję tutaj
+const getOneDayBefore = (date: Date): Date => {
+  const yesterday = new Date(date.getTime());
+  yesterday.setDate(date.getDate() - 1);
+  return yesterday;
+};
+
 export const getLastWorkingDay = (date: Date): string => {
-  let isDayOff = false;
-  const innerDate = new Date(date);
+  const dateMinusDay = getOneDayBefore(date);
 
-  innerDate.setDate(innerDate.getDate() - 1); // always subtract one day from original date
-
-  for (let i = 0; i < 7; i++) {
-    isDayOffInPoland(innerDate) ? (isDayOff = true) : (isDayOff = false);
-
-    if (isDayOff) {
-      innerDate.setDate(innerDate.getDate() - 1);
-    } else {
-      break; // end the loop if the working the was found
-    }
+  if (isDayOffInPoland(dateMinusDay)) {
+    return getLastWorkingDay(dateMinusDay);
   }
 
-  return innerDate.toISOString().slice(0, 10);
+  return customToISOString(dateMinusDay);
 };
 
 // TODO: Spróbować zmienić typ ze stringa na Date
