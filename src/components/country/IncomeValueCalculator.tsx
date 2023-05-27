@@ -19,7 +19,7 @@ export const IncomeValueCalculator: FunctionComponent<
 > = ({ selectedCountry, children }) => {
   const {
     income,
-    holidayIncome,
+    additionalIncome,
     currencyValue,
     dailyDiet,
     workDays,
@@ -40,7 +40,7 @@ export const IncomeValueCalculator: FunctionComponent<
       workMonths,
       dailyDiet,
       workDays,
-      holidayIncome,
+      additionalIncome,
       monthlyIncomeCost,
     });
 
@@ -48,7 +48,7 @@ export const IncomeValueCalculator: FunctionComponent<
   }, [
     currencyValue,
     dailyDiet,
-    holidayIncome,
+    additionalIncome,
     income,
     monthlyIncomeCost,
     setIncomePLN,

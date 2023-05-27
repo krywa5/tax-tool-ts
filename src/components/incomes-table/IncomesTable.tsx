@@ -46,7 +46,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
   const hasPaymentDate = manualFields.includes("paymentDate");
   const hasDaysInPoland = manualFields.includes("daysInPoland");
   const hasPaidTax = manualFields.includes("paidTax");
-  const hasHolidayIncome = manualFields.includes("holidayIncome");
+  const hasAdditionalIncome = manualFields.includes("additionalIncome");
   const hasIncome = manualFields.includes("income");
   const hasTaxPLN = autoFields.includes("taxPLN");
   const hasIncomePLN = autoFields.includes("incomePLN");
@@ -66,7 +66,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
             {hasPaidTax && (
               <TableCell>Podatek {countryData.currency}</TableCell>
             )}
-            {hasHolidayIncome && <TableCell>Przychód wakacyjny</TableCell>}
+            {hasAdditionalIncome && <TableCell>Przychód dodatkowy</TableCell>}
             {hasIncome && (
               <TableCell>Przychód {countryData.currency}</TableCell>
             )}
@@ -83,7 +83,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
               endDate,
               incomeAbroad,
               paidTax,
-              holidayIncome,
+              additionalIncome,
               paymentDate,
               currencyValue,
               currencyTable,
@@ -115,8 +115,10 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
                 {hasDaysInPoland && <TableCell>{daysInPoland}</TableCell>}
                 <TableCell>{currencyTable}</TableCell>
                 <TableCell>{numberToLocaleString(currencyValue, 4)}</TableCell>
-                {hasHolidayIncome && (
-                  <TableCell>{numberToLocaleString(holidayIncome)}</TableCell>
+                {hasAdditionalIncome && (
+                  <TableCell>
+                    {numberToLocaleString(additionalIncome)}
+                  </TableCell>
                 )}
                 {hasPaidTax && (
                   <TableCell>{numberToLocaleString(paidTax)}</TableCell>

@@ -130,14 +130,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
         ],
       },
       intl: {
-        holidayIncome: "Pole nr 20 - Steuefreue…",
+        additionalIncome: "Pole nr 20 - Steuefreue…",
         income: "Pole nr 3 - Bruttoarbaitslohn (Gesamt-Brutto)",
       },
       label: "Niemcy",
@@ -271,14 +271,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
         ],
       },
       intl: {
-        holidayIncome: "Pole nr 20 - Steuefreue…",
+        additionalIncome: "Pole nr 20 - Steuefreue…",
         income: "Pole nr 3 - Bruttoarbaitslohn (Gesamt-Brutto)",
       },
       label: "Niemcy",
@@ -307,14 +307,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
         ],
       },
       intl: {
-        holidayIncome: "Feriepenger",
+        additionalIncome: "Feriepenger",
         income: "Hourly wage (amount)",
       },
       label: "Norwegia",
@@ -343,7 +343,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
@@ -486,14 +486,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
         ],
       },
       intl: {
-        holidayIncome: "Pole nr 20 - Steuefreue…",
+        additionalIncome: "Pole nr 20 - Steuefreue…",
         income: "Pole nr 3 - Bruttoarbaitslohn (Gesamt-Brutto)",
       },
       label: "Niemcy",
@@ -523,7 +523,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
       },
       intl: {
-        holidayIncome: "Feriepenger",
+        additionalIncome: "Feriepenger",
         income: "Hourly wage (amount)",
       },
       label: "Norwegia",
@@ -552,7 +552,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
@@ -695,14 +695,14 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",
         ],
       },
       intl: {
-        holidayIncome: "Pole nr 20 - Steuefreue…",
+        additionalIncome: "Pole nr 21",
         income: "Pole nr 3 - Bruttoarbaitslohn (Gesamt-Brutto)",
       },
       label: "Niemcy",
@@ -731,7 +731,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "paidTax",
           "startDate",
           "endDate",
@@ -739,7 +739,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
       },
       intl: {
-        holidayIncome: "Feriepenger",
+        additionalIncome: "Feriepenger",
         income: "Feriengegrunnlag + Opptjente feriepenger, Lønn mv (8,0%)",
         paidTax: "Skattetrekk, Forskuddstrekk",
       },
@@ -767,7 +767,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         ],
         manual: [
           "income",
-          "holidayIncome",
+          "additionalIncome",
           "startDate",
           "endDate",
           "daysInPoland",

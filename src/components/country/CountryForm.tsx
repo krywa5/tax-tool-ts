@@ -26,7 +26,7 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
   const {
     income,
     paidTax,
-    holidayIncome,
+    additionalIncome,
     startDate,
     endDate,
     paymentDate,
@@ -60,7 +60,7 @@ export const CountryForm: FunctionComponent<CountryBaseProps> = ({
       currencyValueDate,
       daysInPoland,
       endDate,
-      holidayIncome: holidayIncome ?? 0,
+      additionalIncome: additionalIncome ?? 0,
       id: Date.now().toString(),
       incomeAbroad: income,
       incomePLN,

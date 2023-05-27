@@ -2,7 +2,7 @@ import { daysBetweenDates } from "utils/dateUtils";
 
 interface calculateIncomePLNProps {
   income: number;
-  holidayIncome: number | null;
+  additionalIncome: number | null;
   workDays: number;
   dailyDiet: number;
   currencyValue: number;
@@ -12,17 +12,17 @@ interface calculateIncomePLNProps {
 
 export const calculateIncomePLN = ({
   income,
-  holidayIncome,
+  additionalIncome,
   workMonths,
   workDays,
   dailyDiet,
   currencyValue,
   monthlyIncomeCost,
 }: calculateIncomePLNProps): number => {
-  const holidayIncomeForCalculations = holidayIncome ?? 0;
+  const additionalIncomeForCalculations = additionalIncome ?? 0;
 
   const incomePLN =
-    (income + holidayIncomeForCalculations - workDays * dailyDiet) *
+    (income + additionalIncomeForCalculations - workDays * dailyDiet) *
       currencyValue -
     workMonths * monthlyIncomeCost;
 

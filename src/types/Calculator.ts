@@ -1,7 +1,7 @@
 export interface Calculator {
   income: number | null; // przychód brutto
   paidTax: number | null; // zapłacony podatek zagranicą
-  holidayIncome: number | null; // przychód wakacyjny (tylko w Niemczech)
+  additionalIncome: number | null; // przychód dodatkowy
   startDate: Date | null; // data rozpoczęcia pracy
   endDate: Date | null; // data zakończenia pracy
   paymentDate: Date | null; // data wypłaty

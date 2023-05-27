@@ -12,7 +12,7 @@ type AutoField =
 
 type ManualField =
   | "income"
-  | "holidayIncome"
+  | "additionalIncome"
   | "paymentDate"
   | "paidTax"
   | "startDate"

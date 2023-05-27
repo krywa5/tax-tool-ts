@@ -33,6 +33,9 @@ export const GlobalStyles: FunctionComponent = () => {
   const globalStyles = {
     ...keyFrames,
     ...printStyles,
+    ".MuiTooltip-tooltip.MuiTooltip-tooltip": {
+      fontSize: "0.8rem",
+    },
   };
   return <MuiGlobalStyles styles={globalStyles} />;
 };

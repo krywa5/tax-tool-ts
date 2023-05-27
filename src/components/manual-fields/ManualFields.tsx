@@ -23,14 +23,14 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
 }) => {
   const {
     income,
-    holidayIncome,
+    additionalIncome,
     paidTax,
     startDate,
     endDate,
     paymentDate,
     daysInPoland,
     setIncome,
-    setHolidayIncome,
+    setAdditionalIncome,
     setPaidTax,
     setStartDate,
     setEndDate,
@@ -71,21 +71,22 @@ export const ManualFields: FunctionComponent<ManualFieldsProps> = ({
           />
         </InputField>
       )}
-      {countryData.inputs.manual.includes("holidayIncome") && (
+      {countryData.inputs.manual.includes("additionalIncome") && (
         <InputField>
           <InputLabel
-            label="Przychód wakacyjny"
-            labelFor="holidayIncome"
-            subLabels={countryData.intl.holidayIncome}
+            label="Przychód dodatkowy"
+            labelDescription="Dodatkowy przychód poza pensją, np. dodatek wakacyjny lub dodatek na gospodarstwo domowe"
+            labelFor="additionalIncome"
+            subLabels={countryData.intl.additionalIncome}
           />
           <TextField
-            id="holidayIncome"
-            label="Przychód wakacyjny"
+            id="additionalIncome"
+            label="Przychód dodatkowy"
             type="number"
             variant="outlined"
-            value={holidayIncome ?? ""}
+            value={additionalIncome ?? ""}
             onChange={(e) =>
-              setHolidayIncome(stringNumberToNumber(e.target.value))
+              setAdditionalIncome(stringNumberToNumber(e.target.value))
             }
             InputProps={{
               endAdornment: (

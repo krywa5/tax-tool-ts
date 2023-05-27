@@ -14,7 +14,7 @@ import { daysToMonths, isValidDate } from "utils/dateUtils";
 export const CountryContext = createContext<CountryContextType>({
   income: null, // przychód brutto
   paidTax: null, // zapłacony podatek zagranicą
-  holidayIncome: null, // przychód wakacyjny (tylko w Niemczech)
+  additionalIncome: null, // przychód dodatkowy
   startDate: null, // data rozpoczęcia pracy
   endDate: null, // data zakończenia pracy
   paymentDate: null, // data wypłaty
@@ -41,7 +41,7 @@ export const CountryContext = createContext<CountryContextType>({
   setPaymentDate: () => {},
   setEndDate: () => {},
   setStartDate: () => {},
-  setHolidayIncome: () => {},
+  setAdditionalIncome: () => {},
   setPaidTax: () => {},
   setIncome: () => {},
   resetManualInputs: () => {},
@@ -51,7 +51,7 @@ export const CountryContext = createContext<CountryContextType>({
 interface CalculatorHandlers {
   setIncome: (incomeValue: number) => void;
   setPaidTax: (paidTaxValue: number) => void;
-  setHolidayIncome: (paidTaxValue: number) => void;
+  setAdditionalIncome: (paidTaxValue: number) => void;
   setStartDate: (startDate: Date) => void;
   setEndDate: (endDate: Date) => void;
   setPaymentDate: (paymentDate: Date) => void;
@@ -77,7 +77,7 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
 }) => {
   const [income, setIncome] = useState<number | null>(null);
   const [paidTax, setPaidTax] = useState<number | null>(null);
-  const [holidayIncome, setHolidayIncome] = useState<number | null>(null);
+  const [additionalIncome, setAdditionalIncome] = useState<number | null>(null);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [paymentDate, setPaymentDate] = useState<Date | null>(null);
@@ -100,8 +100,8 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
     (paidTax: number) => setPaidTax(paidTax),
     [],
   );
-  const setHolidayIncomeHandler = useCallback(
-    (holidayIncome: number) => setHolidayIncome(holidayIncome),
+  const setAdditionalIncomeHandler = useCallback(
+    (additionalIncome: number) => setAdditionalIncome(additionalIncome),
     [],
   );
   const setStartDateHandler = useCallback((startDate: Date) => {
@@ -163,7 +163,7 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
   const resetManualInputs = useCallback(() => {
     setIncome(null);
     setPaidTax(null);
-    setHolidayIncome(null);
+    setAdditionalIncome(null);
     setDaysInPoland(0);
   }, []);
   const resetCurrencyData = useCallback(() => {
@@ -208,8 +208,8 @@ export const CountryProvider: FunctionComponent<PropsWithChildren> = ({
         setIncome: setIncomeHandler,
         paidTax,
         setPaidTax: setPaidTaxHandler,
-        holidayIncome,
-        setHolidayIncome: setHolidayIncomeHandler,
+        additionalIncome,
+        setAdditionalIncome: setAdditionalIncomeHandler,
         startDate,
         setStartDate: setStartDateHandler,
         endDate,

@@ -8,7 +8,7 @@ export interface Income {
   currencyValue: number;
   currencyValueDate: Date;
   daysInPoland: number;
-  holidayIncome: number;
+  additionalIncome: number;
   incomeAbroad: number;
   incomePLN: number;
   paidTax: number;
