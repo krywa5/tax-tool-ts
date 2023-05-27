@@ -63,10 +63,10 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
             {hasDaysInPoland && <TableCell>Dni w Polsce</TableCell>}
             <TableCell>Tabela</TableCell>
             <TableCell>Kurs waluty</TableCell>
+            {hasAdditionalIncome && <TableCell>Przychód dodatkowy</TableCell>}
             {hasPaidTax && (
               <TableCell>Podatek {countryData.currency}</TableCell>
             )}
-            {hasAdditionalIncome && <TableCell>Przychód dodatkowy</TableCell>}
             {hasIncome && (
               <TableCell>Przychód {countryData.currency}</TableCell>
             )}
@@ -115,6 +115,7 @@ const IncomesTableBase: FunctionComponent<IncomesTableProps> = ({
                 {hasDaysInPoland && <TableCell>{daysInPoland}</TableCell>}
                 <TableCell>{currencyTable}</TableCell>
                 <TableCell>{numberToLocaleString(currencyValue, 4)}</TableCell>
+
                 {hasAdditionalIncome && (
                   <TableCell>
                     {numberToLocaleString(additionalIncome)}
