@@ -822,4 +822,254 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       },
     },
   ],
+  "2023": [
+    {
+      currency: "EUR",
+      diet: 50,
+      dietFactor: 0.3,
+      id: "netherlands",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dailyDiet",
+          "workDays",
+          "allAllowanceValue",
+          "taxPLN",
+          "incomePLN",
+        ],
+        manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
+      },
+      intl: {
+        income: "Loon loonbelasting/volksverzekeringen",
+        paidTax: "Ingehouden loonbelasting/premie volksverz. (loonheffing)",
+      },
+      label: "Holandia",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
+      },
+      tips: [
+        "gdy L20/L02/L07 (zwolnienie lekarskie) -> zredukować wartość diet do 0 (ustawić stawkę 0) oraz ustawić 0 miesięcy zagranicą.",
+      ],
+    },
+    {
+      currency: "EUR",
+      diet: 55,
+      dietFactor: 0.3,
+      id: "belgium",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dailyDiet",
+          "workDays",
+          "allAllowanceValue",
+          "taxPLN",
+          "incomePLN",
+        ],
+        manual: [
+          "income",
+          "paidTax",
+          "startDate",
+          "endDate",
+          "paymentDate",
+          "daysInPoland",
+        ],
+      },
+      intl: {
+        income:
+          "Loon loonbelasting/volksverzekeringen / Imposable / Totaal Bezoldigingen",
+        paidTax:
+          "Ingehouden loonbelasting/premie volksverz. (loonheffing) / Totaal Bedrijfsvoorheffing / Precompte",
+        paymentDate: "Paye Le / Calcule le",
+      },
+      label: "Belgia",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
+      },
+    },
+    {
+      currency: "EUR",
+      diet: 55,
+      dietFactor: 0.3,
+      id: "france",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "startDate",
+          "endDate",
+          "paymentDate",
+          "daysInPoland",
+        ],
+      },
+      intl: {
+        income: "Total Brut",
+        paymentDate: "Paye Le",
+      },
+      label: "Francja",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
+    {
+      currency: "EUR",
+      diet: 49,
+      dietFactor: 0.3,
+      id: "germany",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "additionalIncome",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+        ],
+      },
+      intl: {
+        additionalIncome: "Pole nr 21",
+        income: "Pole nr 3 - Bruttoarbaitslohn (Gesamt-Brutto)",
+      },
+      label: "Niemcy",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
+    {
+      currency: "NOK",
+      diet: 496,
+      dietFactor: 0.3,
+      id: "norway",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dailyDiet",
+          "workDays",
+          "allAllowanceValue",
+          "taxPLN",
+          "incomePLN",
+        ],
+        manual: [
+          "income",
+          "additionalIncome",
+          "paidTax",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+        ],
+      },
+      intl: {
+        additionalIncome: "Feriepenger",
+        income: "Feriengegrunnlag + Opptjente feriepenger, Lønn mv (8,0%)",
+        paidTax: "Skattetrekk, Forskuddstrekk",
+      },
+      label: "Norwegia",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
+      },
+    },
+    {
+      currency: "CHF",
+      diet: 88,
+      dietFactor: 0.3,
+      id: "switzerland",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "additionalIncome",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+          "paymentDate",
+        ],
+      },
+      intl: {
+        income: "Bruttolohn total / Salaire brut total / Salario lordo totale",
+      },
+      label: "Szwajcaria",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
+    {
+      currency: "SEK",
+      diet: 510,
+      dietFactor: 0.3,
+      id: "sweden",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+          "paymentDate",
+        ],
+      },
+      intl: {
+        income: "Gross income",
+      },
+      label: "Szwecja",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
+  ],
 };
