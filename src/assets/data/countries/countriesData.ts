@@ -1100,5 +1100,38 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       },
       tips: [],
     },
+    {
+      currency: "EUR",
+      diet: 53,
+      dietFactor: 0.3,
+      id: "italy",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dayAllowanceValue",
+          "workDays",
+          "dailyDiet",
+          "incomePLN",
+          "allAllowanceValue",
+        ],
+        manual: [
+          "income",
+          "additionalIncome",
+          "startDate",
+          "endDate",
+          "daysInPoland",
+        ],
+      },
+      intl: {},
+      label: "Włochy",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: [
+          "PIT-ZG: pole 8",
+          "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
+        ],
+      },
+    },
   ],
 };
