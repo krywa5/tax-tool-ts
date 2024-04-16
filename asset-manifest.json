@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/tax-tool-ts/static/css/main.025cb5a3.css",
-    "main.js": "/tax-tool-ts/static/js/main.1a046925.js",
+    "main.js": "/tax-tool-ts/static/js/main.cbd3f6c7.js",
     "index.html": "/tax-tool-ts/index.html",
     "main.025cb5a3.css.map": "/tax-tool-ts/static/css/main.025cb5a3.css.map",
-    "main.1a046925.js.map": "/tax-tool-ts/static/js/main.1a046925.js.map"
+    "main.cbd3f6c7.js.map": "/tax-tool-ts/static/js/main.cbd3f6c7.js.map"
   },
   "entrypoints": [
     "static/css/main.025cb5a3.css",
-    "static/js/main.1a046925.js"
+    "static/js/main.cbd3f6c7.js"
   ]
 }
