@@ -27,8 +27,18 @@ export const irregularDaysOffInPoland = [
   "2022-06-05", // Zielone Świątki
   "2022-06-16", // Boże Ciało
   // 2023
-  "2022-04-09", // Wielkanoc
-  "2022-04-10",
-  "2022-05-28", // Zielone Świątki
-  "2022-06-08", // Boże Ciało
+  "2023-04-09", // Wielkanoc
+  "2023-04-10",
+  "2023-05-28", // Zielone Świątki
+  "2023-06-08", // Boże Ciało
+  // 2024
+  "2024-03-31", // Wielkanoc
+  "2024-04-01",
+  "2024-05-19", // Zielone Świątki
+  "2024-05-30", // Boże Ciało
+  // 2025
+  "2025-04-20", // Wielkanoc
+  "2025-04-21",
+  "2025-06-08", // Zielone Świątki
+  "2025-06-19", // Boże Ciało
 ];
