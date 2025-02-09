@@ -24,7 +24,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   position: "fixed",
   bottom: "50px",
   right: "50px",
-  padding: theme.spacing(3, 4),
+  padding: theme.spacing(2, 3),
   backgroundColor: theme.palette.secondary.main,
   transition: `${theme.transitions.easing.easeInOut} ${theme.transitions.duration.short}ms`,
   outline: "none",

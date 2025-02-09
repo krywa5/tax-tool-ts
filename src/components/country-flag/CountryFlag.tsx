@@ -5,6 +5,8 @@ import { styled, Tooltip } from "@mui/material";
 import belgiumFlag from "assets/images/flags/belgium.jpg";
 import franceFlag from "assets/images/flags/france.jpg";
 import germanyFlag from "assets/images/flags/germany.jpg";
+import greatBritainFlag from "assets/images/flags/great-britain.png";
+import italyFlag from "assets/images/flags/italy.png";
 import netherlandsFlag from "assets/images/flags/netherlands.jpg";
 import noFlag from "assets/images/flags/no-flag.jpg";
 import norwayFlag from "assets/images/flags/norway.png";
@@ -39,6 +41,10 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
         return switzerlandFlag;
       case "sweden":
         return swedenFlag;
+      case "great-britain":
+        return greatBritainFlag;
+      case "italy":
+        return italyFlag;
       default:
         return noFlag;
     }
