@@ -3,6 +3,7 @@ import { NavLink, useParams } from "react-router-dom";
 
 import { styled, Tooltip } from "@mui/material";
 import belgiumFlag from "assets/images/flags/belgium.jpg";
+import denmarkFlag from "assets/images/flags/denmark.png";
 import franceFlag from "assets/images/flags/france.jpg";
 import germanyFlag from "assets/images/flags/germany.jpg";
 import greatBritainFlag from "assets/images/flags/great-britain.png";
@@ -45,6 +46,8 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
         return greatBritainFlag;
       case "italy":
         return italyFlag;
+      case "denmark":
+        return denmarkFlag;
       default:
         return noFlag;
     }

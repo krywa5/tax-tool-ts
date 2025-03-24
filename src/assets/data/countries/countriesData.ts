@@ -1153,7 +1153,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
       },
       intl: {
-        income: "Loon loonbelasting/volksverzekeringen",
+        income: "Loon / Loon voor Loonheffing",
         paidTax: "Ingehouden loonbelasting/premie volksverz. (loonheffing)",
       },
       label: "Holandia",
@@ -1443,6 +1443,34 @@ export const countriesData: Record<AvailableYear, Country[]> = {
           "PIT-ZG: pole 8",
           "PIT-ZG: pola 9,10 = 0, PIT-36: sprawdzić pole 303",
         ],
+      },
+    },
+    {
+      currency: "DKK",
+      diet: 446,
+      dietFactor: 0.3,
+      id: "denmark",
+      inputs: {
+        auto: [
+          "currencyValue",
+          "allowanceMonths",
+          "dailyDiet",
+          "workDays",
+          "allAllowanceValue",
+          "taxPLN",
+          "incomePLN",
+        ],
+        manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
+      },
+      intl: {
+        income: "Aflønning / Vederlag / Vederlaget",
+        paidTax: "Lønsumsafgift / Lønskat",
+      },
+      label: "Dania",
+      monthlyIncomeCost: 250,
+      subLabels: {
+        incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
+        taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
       },
     },
   ],
