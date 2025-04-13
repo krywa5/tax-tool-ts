@@ -1463,8 +1463,8 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         manual: ["income", "paidTax", "startDate", "endDate", "daysInPoland"],
       },
       intl: {
-        income: "Aflønning / Vederlag / Vederlaget",
-        paidTax: "Lønsumsafgift / Lønskat",
+        income: "Indkomst / Aflønning / Vederlag / Vederlaget",
+        paidTax: "Indeholdt A-skat / Lønsumsafgift / Lønskat",
       },
       label: "Dania",
       monthlyIncomeCost: 250,
