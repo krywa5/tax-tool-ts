@@ -1302,8 +1302,9 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       },
       intl: {
         additionalIncome: "Feriepenger",
-        income: "Feriengegrunnlag + Opptjente feriepenger, Lønn mv (8,0%)",
-        paidTax: "Skattetrekk, Forskuddstrekk",
+        income: "Lønn og naturalytelser / Sum Inntekter",
+        paidTax:
+          "Førebels Utrekna Skatt OG Avgift / Skattetrekk / Forskuddstrekk",
       },
       label: "Norwegia",
       monthlyIncomeCost: 250,
