@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/tax-tool-ts/static/css/main.025cb5a3.css",
-    "main.js": "/tax-tool-ts/static/js/main.da8eab80.js",
+    "main.js": "/tax-tool-ts/static/js/main.7041a9f9.js",
     "static/media/great-britain.png": "/tax-tool-ts/static/media/great-britain.841fc3c5dd8b20c06f42.png",
     "index.html": "/tax-tool-ts/index.html",
     "main.025cb5a3.css.map": "/tax-tool-ts/static/css/main.025cb5a3.css.map",
-    "main.da8eab80.js.map": "/tax-tool-ts/static/js/main.da8eab80.js.map"
+    "main.7041a9f9.js.map": "/tax-tool-ts/static/js/main.7041a9f9.js.map"
   },
   "entrypoints": [
     "static/css/main.025cb5a3.css",
-    "static/js/main.da8eab80.js"
+    "static/js/main.7041a9f9.js"
   ]
 }
