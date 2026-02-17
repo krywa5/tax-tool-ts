@@ -41,4 +41,9 @@ export const irregularDaysOffInPoland = [
   "2025-04-21",
   "2025-06-08", // Zielone Świątki
   "2025-06-19", // Boże Ciało
+  // 2026
+  "2026-04-05", // Wielkanoc
+  "2026-04-06",
+  "2026-05-24", // Zielone Świątki
+  "2026-06-04", // Boże Ciało
 ];
