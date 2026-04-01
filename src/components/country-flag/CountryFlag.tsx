@@ -56,13 +56,7 @@ export const CountryFlag: FunctionComponent<CountryFlagProps> = ({
   return (
     <Tooltip title={countryLabel} placement="bottom">
       <FlagListItem data-selected={country === selectedCountry}>
-        <NavLink
-          to={
-            country === selectedCountry
-              ? PATHS.home
-              : `${PATHS.home}/${country}`
-          }
-        >
+        <NavLink to={country === selectedCountry ? PATHS.home : country}>
           <FlagImg src={flagImg} alt="country flag" />
         </NavLink>
       </FlagListItem>

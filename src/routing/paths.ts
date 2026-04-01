@@ -1,4 +1,4 @@
-const BASE_PATH = "/tax-tool-ts";
+const BASE_PATH = "/";
 
 export const PATHS = {
   home: BASE_PATH,

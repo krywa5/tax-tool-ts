@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import { AppProvider } from "contexts/AppContext";
 import { ToastProvider } from "infrastructure/services/ToastProvider";
@@ -8,14 +8,14 @@ import { ThemeProvider } from "theme/ThemeProvider";
 
 const App: FunctionComponent = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <ThemeProvider>
         <ToastProvider />
         <AppProvider>
           <RouterProvider />
         </AppProvider>
       </ThemeProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

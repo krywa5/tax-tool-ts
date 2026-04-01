@@ -10,11 +10,11 @@ import { PATHS } from "routing/paths";
 export const RouterProvider: FunctionComponent = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={PATHS.home} />} />
       <Route path={PATHS.loginPage} element={<Login />} />
       <Route path={PATHS.home} element={<AuthorizedTaxTool />}>
         <Route path={`${PATHS.home}/:countryId`} element={<Country />} />
       </Route>
+      <Route path="*" element={<Navigate to={PATHS.home} replace />} />
     </Routes>
   );
 };
