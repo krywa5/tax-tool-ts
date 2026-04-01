@@ -1644,8 +1644,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
       intl: {
         additionalIncome: "Feriepenger",
         income: "Lønn og naturalytelser / Sum Inntekter",
-        paidTax:
-          "Førebels Utrekna Skatt OG Avgift / Skattetrekk / Forskuddstrekk",
+        paidTax: "Berekna skatt og avgift",
       },
       label: "Norwegia",
       monthlyIncomeCost: 250,
@@ -1653,6 +1652,7 @@ export const countriesData: Record<AvailableYear, Country[]> = {
         incomePLN: ["PIT-ZG: pole 9, PIT-36: pole 89", "PIT-ZG: pole 8 = 0"],
         taxPLN: "PIT-ZG: pole 10, PIT-36: pole 309",
       },
+      tips: ["Najlepszy dokument do rozliczenia - Skatteoppgjer"],
     },
     {
       currency: "CHF",

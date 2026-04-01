@@ -9,7 +9,12 @@ export const ToastProvider: FunctionComponent<PropsWithChildren> = ({
 }) => {
   return (
     <>
-      <StyledToastContainer autoClose={3000} newestOnTop transition={Slide} />
+      <StyledToastContainer
+        autoClose={3000}
+        newestOnTop
+        transition={Slide}
+        pauseOnFocusLoss={false}
+      />
       {children}
     </>
   );
